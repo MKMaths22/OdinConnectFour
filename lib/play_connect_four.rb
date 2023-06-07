@@ -2,4 +2,5 @@
 # to do testing on game.rb, which may be later split up according to classes
 
 require './game.rb'
-Game.new
+game = Game.new
+game.play_game
