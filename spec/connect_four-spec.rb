@@ -15,8 +15,28 @@ require '../lib/game'
             game.create_players
           end
         end
-        
-      
+      end
+
+      describe "#one_turn" do
+        context 'player_one has had a turn, so player_two should be next' do
+          before do
+            # let(:Peter) { double(Player) }
+            # let(:Chris) { double(Player) }
+            # current_player = game.instance_variable_get(:@current_player)
+            # peter = game.instance_variable_get(:@player_one)
+            # current_player = peter
+            # chris = game.instance_variable_get(:@player_two)
+          end
+
+          it 'changes the value of current_player' do
+            current_player = game.instance_variable_get(:@current_player)
+            peter = game.instance_variable_get(:@player_one)
+            current_player = peter
+            chris = game.instance_variable_get(:@player_two)
+            game.one_turn
+            expect(game.instance_variable_get(:@current_player)).to eq(chris)
+          end
+        end
       end
 
 
