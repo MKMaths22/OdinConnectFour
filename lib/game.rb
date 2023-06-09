@@ -15,7 +15,7 @@ class Game
     puts "Welcome to Connect Four!"
     sleep(2)
     create_players
-    ask_second_disk
+    ask_second_disc
   end
 
   def create_players
@@ -35,11 +35,11 @@ class Game
 
   def ask_second_disc
     if disc_input == 'Y'
-      @player_one.set_red
-      @player_two.set_yellow
+      player_one.set_red
+      player_two.set_yellow
     else 
-      @player_one.set_yellow
-      @player_two.set_red
+      player_one.set_yellow
+      player_two.set_red
     end
   end
 

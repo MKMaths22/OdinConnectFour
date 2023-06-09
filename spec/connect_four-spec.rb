@@ -50,19 +50,25 @@ require '../lib/game'
 
       describe "#ask_second_disc" do
         context 'Second player chooses yellow' do
-            let(:chris) { instance_double(Player, 'Chris') }
-            let(:peter) { instance_double(Player, 'Peter') }
+            let(:game) { Game.new }
+            let(:player_one) { instance_double(Player) }
+            let(:player_two) { instance_double(Player) }
+            before do
+              allow(game).to receive(:player_one).and_return(player_one)
+              allow(game).to receive(:player_two).and_return(player_two)
+            end
+            
             it 'sends the second player message to set disc to yellow' do
               allow(game).to receive(:disc_input).and_return('Y')
-              allow(game).to receive(:@player_two).and_return(chris)
-              expect(chris).to receive(:set_yellow)
+              allow(player_one).to receive(:set_red)
+              expect(player_two).to receive(:set_yellow)
               game.ask_second_disc
             end
 
             it 'sends the first player message to set disc to red' do
               allow(game).to receive(:disc_input).and_return('Y')
-              allow(game).to receive(:@player_one).and_return(peter)
-              expect(peter).to receive(:set_red)
+              allow(player_two).to receive(:set_yellow)
+              expect(player_one).to receive(:set_red)
               game.ask_second_disc
             end
 
