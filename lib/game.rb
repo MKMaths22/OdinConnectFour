@@ -14,12 +14,17 @@ class Game
     puts "Welcome to Connect Four!"
     sleep(2)
     create_players
+    create_board
     ask_second_disc
   end
 
   def create_players
     @player_one = Player.new(ask_first_name)
     @player_two = Player.new(ask_second_name)
+  end
+
+  def create_board
+    board = Board.new
   end
 
   def ask_first_name
@@ -64,8 +69,25 @@ class Game
     error = "Invalid input. Please enter " + this_array.join(', ') + end_of_error
   end
   
-  def one_turn
+  def toggle_player
     @current_player = @current_player == @player_one ? player_two : player_one
+  end
+
+  def one_turn
+    show_board(board)
+    tell_player_to_choose(@current_player)
+    player_places_disc(board, @current_player.disc)
+    toggle_player
+  end
+
+  def player_places_disc(board, disc)
+    column_error = 'That column is full. Please choose another.'
+    column_chosen = valid_input(['1', '2', '3', '4', '5', '6', '7'])
+    result = board.try_adding_tile(column_chosen, disc)
+    if result == 'full'
+      puts column_error
+      player_places_disc(board, disc)
+    end
   end
 
 
@@ -88,5 +110,17 @@ class Player
   def set_yellow
     @disc = 'Yellow'
   end
+end
+
+class Board
+  def initialize
+    @cells_array = Array.new(7) { Array.new(6, 'empty') }
+  
+  end
+
+  def try_adding_tile(column, disc)
+   'full'
+  end
+
 end
 
