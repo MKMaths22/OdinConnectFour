@@ -71,16 +71,35 @@ require '../lib/game'
               expect(player_one).to receive(:set_red)
               game.ask_second_disc
             end
-
-
+          end
         end
 
-      end
-
-
-
-
-      
+        describe '#valid_input' do
+          context 'when using valid_input for choice of disc colour' do
+            my_array = ['R', 'Y']
+            specific_error = "Invalid input. Please enter 'R' or 'Y'"
+              context 'wrong input once then valid second time' do
+                first_input = 'A'
+                second_input = ' Y'
+                  it 'displays the error once' do
+                    allow(game).to receive(:error_message).with(my_array).and_return(specific_error)
+                    allow(game).to receive(:gets).and_return(first_input, second_input)
+                    expect(game).to receive(:puts).with(specific_error).once
+                    game.valid_input(my_array)
+            
+                  end
+              end
+              context 'valid input first time, lowercase' do
+                valid_input = 'r'
+                  it 'does not display the error' do
+                    allow(game).to receive(:gets).and_return(valid_input)
+                    allow(game).to receive(:error_message).with(my_array).and_return(specific_error)
+                    expect(game).to_not receive(:puts).with(specific_error)
+                    game.valid_input(my_array)
+                   end
+              end
+          end
+        end
   end
 
 

@@ -5,7 +5,6 @@ class Game
   attr_accessor :player_one, :player_two, :current_player
 
   def initialize
-    # @this_game = play_game
     @player_one = nil
     @player_two = nil
     @current_player = player_one
@@ -51,7 +50,18 @@ class Game
   end
 
   def valid_input(array)
+    value = gets.strip.upcase
+    return value if array.include?(value)
 
+    puts error_message(array)
+    valid_input(array)
+  end
+
+  def error_message(array)
+    this_array = array.clone
+    # prevents the array 'array' from being modified below
+    end_of_error = " or #{this_array.pop}."
+    error = "Invalid input. Please enter " + this_array.join(', ') + end_of_error
   end
   
   def one_turn
