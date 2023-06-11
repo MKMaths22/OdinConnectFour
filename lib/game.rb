@@ -155,5 +155,38 @@ class Board
     puts 'dummy_result'
   end
 
+  def check_if_game_over?(array, column, row)
+    disc = array[column][row]
+    return true if array.dig(column, row - 1) == disc && array.dig(column, row - 2) == disc && array.dig(column, row - 3) == disc
+    
+    for i in [0, 1, 2, 3] do
+      four_in_a_row = true
+      for j in [i, i + 1, i + 2, i + 3] do
+        four_in_a_row = false unless array.dig(j, row) == disc
+      end
+      return true if four_in_a_row
+    end
+    
+    diff = column - row
+    for i in [0, 1, 2, 3] do
+      four_in_a_north_east_diagonal = true
+      for j in [i, i + 1, i + 2, i + 3] do
+        four_in_a_north_east_diagonal = false unless array.dig(j, j - diff) == disc
+      end
+      return true if four_in_a_north_east_diagonal
+    end
+
+    sum = column + row
+    for i in [0, 1, 2, 3] do
+      four_in_a_north_west_diagonal = true
+      for j in [i, i + 1, i + 2, i + 3] do
+        four_in_a_north_west_diagonal = false unless array.dig(j, sum - j) == disc
+      end
+      return true if four_in_a_north_west_diagonal
+    end
+    
+    return false
+  end 
+
 end
 

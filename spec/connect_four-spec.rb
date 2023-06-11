@@ -245,6 +245,48 @@ describe Board do
       end
     end
   end
+
+  describe '#check_if_game_over?' do
+    context 'a column of 4 is completed' do
+      let(:cells_array) { [['Red', 'Red', 'Red', 'Red', 'empty', 'empty'], ['Yellow', 'Yellow', 'Yellow', 'empty', 'empty', 'empty'], Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty')] }
+      it 'returns true' do
+        expect(board.check_if_game_over?(cells_array, 0, 3)).to eq(true)
+      end
+    end
+
+    context 'a row of 4 is completed' do
+      let(:cells_array) { [['Red', 'Yellow', 'Yellow', 'Red', 'empty', 'empty'], ['Yellow', 'Yellow', 'Yellow', 'empty', 'empty', 'empty'], ['Red', 'Red', 'Yellow', 'Yellow', 'empty', 'empty'], ['Yellow', 'Red', 'Yellow', 'empty', 'empty', 'empty'], Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty')] }
+      it 'returns true' do
+        expect(board.check_if_game_over?(cells_array, 1, 2)).to eq(true)
+      end
+    end
+
+    context 'a north-east diagonal of 4 is completed' do
+      let(:cells_array) { [['Yellow', 'Yellow', 'Red', 'empty', 'empty', 'empty'], ['Yellow', 'Red', 'empty', 'empty', 'empty', 'empty'], ['Red', 'Red', 'Red', 'empty', 'empty', 'empty'], ['Yellow', 'Yellow', 'Yellow', 'Red', 'empty', 'empty'], ['Yellow', 'Red', 'Yellow', 'Red', 'Red', 'empty'], ['Red', 'Yellow', 'Yellow', 'Red', 'Yellow', 'empty'], ['Red', 'Yellow', 'Red', 'Yellow', 'Red', 'empty']] }
+      it 'returns true' do
+        expect(board.check_if_game_over?(cells_array, 3, 3)).to eq(true)
+      end
+    end
+
+    context 'a north-west diagonal of 4 is completed' do
+      let(:cells_array) { [['Red', 'Yellow', 'Red', 'Yellow', 'Red', 'empty'], ['Red', 'Yellow', 'Yellow', 'Red', 'Yellow', 'empty'], ['Yellow', 'Red', 'Yellow', 'Red', 'Red', 'empty'], ['Yellow', 'Yellow', 'Yellow', 'Red', 'empty', 'empty'], ['Red', 'Red', 'Red', 'empty', 'empty', 'empty'], ['Yellow', 'Red', 'empty', 'empty', 'empty', 'empty'], ['Yellow', 'Yellow', 'Yellow', 'empty', 'empty', 'empty']] }
+      it 'returns true' do
+        expect(board.check_if_game_over?(cells_array, 3, 3)).to eq(true)
+      end
+    end
+
+    
+    
+    
+    context 'no column, row, or diagonal is completed' do
+      let(:cells_array) { [['Red', 'Red', 'Red', 'empty', 'empty', 'empty'], ['Yellow', 'Yellow', 'Yellow', 'empty', 'empty', 'empty'], Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty')] }
+      it 'returns false' do
+        expect(board.check_if_game_over?(cells_array, 0, 2)).to eq(false)
+      end
+
+    end
+  
+  end
 end
 
 
