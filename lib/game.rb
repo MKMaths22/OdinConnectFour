@@ -16,6 +16,7 @@ class Game
     create_players
     create_board
     ask_second_disc
+    turn_loop
   end
 
   def create_players
@@ -77,11 +78,19 @@ class Game
     board.display_board
   end
   
-  def one_turn
+  def turn_loop(board)
+    one_turn(board) until game_over?(board)
+  end
+  
+  def one_turn(board)
     show_board(board)
     tell_player_to_choose(@current_player)
     player_places_disc(board, @current_player.disc)
     toggle_player
+  end
+
+  def tell_player_to_choose(player)
+    puts "#{player.name}, please choose an available column numbered from 1 to 7 for a #{player.disc} disc."
   end
 
   def player_places_disc(board, disc)

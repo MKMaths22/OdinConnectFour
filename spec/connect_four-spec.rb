@@ -96,10 +96,48 @@ describe Game do
       end
 
       describe '#tell_player_to_choose' do
+        context 'it is Peter with the Yellow discs' do
+          let(:peter) { instance_double(Player) }
+          before do
+            allow(peter).to receive(:disc).and_return('Yellow')
+            allow(peter).to receive(:name).and_return('Peter')
+          end
+          it 'tells Peter to choose a column for a Yellow disc' do
+            peter_yellow_message = "Peter, please choose an available column numbered from 1 to 7 for a Yellow disc."
+            expect(game).to receive(:puts).with(peter_yellow_message)
+            game.tell_player_to_choose(peter)
+          end
+        
+        end
+        context 'it is Chris with the Red discs' do
+          let(:chris) { instance_double(Player) }
+          before do
+            allow(chris).to receive(:disc).and_return('Red')
+            allow(chris).to receive(:name).and_return('Chris')
+          end
+          it 'tells Chris to choose a column for a Red disc' do
+            chris_red_message = "Chris, please choose an available column numbered from 1 to 7 for a Red disc."
+            expect(game).to receive(:puts).with(chris_red_message)
+            game.tell_player_to_choose(chris)
+          end
 
+        
+        end
 
       end
       
+      describe '#turn_loop' do
+        context 'game ends after just 7 turns' do
+          let(:board) { instance_double(Board) }
+          it 'executes one_turn exactly 6 times' do
+            allow(game).to receive(:game_over?).with(board).exactly(8).times.and_return(false, false, false, false, false, false, false, true)
+            expect(game).to receive(:one_turn).exactly(7).times
+            game.turn_loop(board)
+          end
+        end
+      
+    
+      end
       
       
       
