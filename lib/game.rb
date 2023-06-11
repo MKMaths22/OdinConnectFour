@@ -3,11 +3,17 @@
 class Game
   
   attr_accessor :player_one, :player_two, :current_player
+  attr_writer :game_over
 
   def initialize
     @player_one = nil
     @player_two = nil
     @current_player = player_one
+    @game_over = false
+  end
+
+  def game_over?
+    @game_over
   end
 
   def play_game
@@ -79,7 +85,7 @@ class Game
   end
   
   def turn_loop(board)
-    one_turn(board) until game_over?(board)
+    one_turn(board) until game_over?
   end
   
   def one_turn(board)
@@ -94,11 +100,13 @@ class Game
   end
 
   def player_places_disc(board, disc)
-    column_error = 'That column is full. Please choose another.'
     column_chosen = valid_input(['1', '2', '3', '4', '5', '6', '7'])
     result = board.try_adding_tile(column_chosen, disc)
+    if result == 'game_over'
+      @game_over = true
+    end
     if result == 'full'
-      puts column_error
+      puts 'That column is full. Please choose another.'
       player_places_disc(board, disc)
     end
   end
@@ -140,6 +148,7 @@ class Board
 
     cell_to_use = cells_array[actual_column].index('empty')
     cells_array[actual_column][cell_to_use] = disc
+    return 'game_over' if check_if_game_over?(cells_array, actual_column, cell_to_use)
   end
 
   def display_board

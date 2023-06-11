@@ -130,7 +130,7 @@ describe Game do
         context 'game ends after just 7 turns' do
           let(:board) { instance_double(Board) }
           it 'executes one_turn exactly 6 times' do
-            allow(game).to receive(:game_over?).with(board).exactly(8).times.and_return(false, false, false, false, false, false, false, true)
+            allow(game).to receive(:game_over?).exactly(8).times.and_return(false, false, false, false, false, false, false, true)
             expect(game).to receive(:one_turn).exactly(7).times
             game.turn_loop(board)
           end
@@ -166,6 +166,21 @@ describe Game do
               game.player_places_disc(board, 'Yellow')
             end
         end  
+      
+        context 'possible column entered, which ends the game' do
+          possible_column = '5'
+          let(:board) { instance_double(Board) }
+            before do
+              allow(game).to receive(:game_over).and_return(false)
+            end
+            it 'changes the value of game_over' do
+              allow(game).to receive(:valid_input).with(['1', '2', '3', '4', '5', '6', '7']).and_return(possible_column)
+              allow(board).to receive(:try_adding_tile).with('5', 'Yellow').and_return('game_over')
+              game.player_places_disc(board, 'Yellow')
+              expect(game).to be_game_over
+            end
+        end
+      
       end
 
       describe '#create_board' do
@@ -197,6 +212,7 @@ describe Board do
         allow(board).to receive(:cells_array).and_return(current_cells_array)
       end
         it 'adds a red tile to the first column' do
+          allow(board).to receive(:check_if_game_over?).with(result_array, 0, 4).and_return(false)
           expect(board).to receive(:cells_array).and_return(result_array)
           board.try_adding_tile('1', 'Red')
         end
@@ -205,17 +221,29 @@ describe Board do
     context 'the column is full' do
       let(:current_cells_array) { [['Red', 'Red', 'Yellow', 'Red', 'empty', 'empty'],['Yellow', 'Yellow', 'Red', 'Yellow', 'Yellow', 'Red'], Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty')] }
       before do
-        allow(board).to receive(:cells_array).and_return current_cells_array
+        allow(board).to receive(:cells_array).and_return(current_cells_array)
       end
-        it "returns 'full' " do
+      it "returns 'full' " do
           expect(board.try_adding_tile('2', 'Yellow')).to eq('full')
-        end
+      end
 
-        it 'does not change the cells_array' do
+      it 'does not change the cells_array' do
           board.try_adding_tile('2', 'Yellow')
           expect(board.cells_array).to eq(current_cells_array)
-        end
       end
+    end
+
+    context 'this ends the game' do
+      let(:current_cells_array) { [['Red', 'Red', 'Red', 'empty', 'empty', 'empty'], ['Yellow', 'Yellow', 'Red', 'Yellow', 'Yellow', 'empty'], Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty')] }
+      let(:next_cells_array) { [['Red', 'Red', 'Red', 'Red', 'empty', 'empty'], ['Yellow', 'Yellow', 'Red', 'Yellow', 'Yellow', 'empty'], Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty')] }
+      before do
+        allow(board).to receive(:cells_array).and_return(current_cells_array)
+      end
+      it 'declares the game to be over' do
+        allow(board).to receive(:check_if_game_over?).with(next_cells_array, 0, 3).and_return(true)
+        expect(board.try_adding_tile('1', 'Red')).to eq('game_over')
+      end
+    end
   end
 end
 
