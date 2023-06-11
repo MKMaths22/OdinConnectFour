@@ -73,6 +73,10 @@ class Game
     @current_player = @current_player == @player_one ? player_two : player_one
   end
 
+  def show_board(board)
+    board.display_board
+  end
+  
   def one_turn
     show_board(board)
     tell_player_to_choose(@current_player)
@@ -113,13 +117,24 @@ class Player
 end
 
 class Board
+  
+  attr_accessor :cells_array
+  
   def initialize
     @cells_array = Array.new(7) { Array.new(6, 'empty') }
-  
   end
 
   def try_adding_tile(column, disc)
-   'full'
+    # The column is inputted as a STRING numbered from 1 to 7, which will have to be reinterpreted 
+    actual_column = column.to_i - 1
+    return 'full' unless cells_array[actual_column][5] == 'empty'
+
+    cell_to_use = cells_array[actual_column].index('empty')
+    cells_array[actual_column][cell_to_use] = disc
+  end
+
+  def display_board
+    puts 'dummy_result'
   end
 
 end

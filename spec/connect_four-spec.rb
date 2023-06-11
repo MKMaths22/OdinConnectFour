@@ -95,6 +95,14 @@ describe Game do
         end
       end
 
+      describe '#tell_player_to_choose' do
+
+
+      end
+      
+      
+      
+      
       describe '#player_places_disc' do
         context 'valid column entered first time' do
           valid_input = '5'
@@ -110,7 +118,7 @@ describe Game do
           full_column = '4'
           possible_column = '5'
           column_error = 'That column is full. Please choose another.'
-          let(:board) { Board.new }
+          let(:board) { instance_double(Board) }
             it 'sends two messages to the board' do
               allow(game).to receive(:valid_input).with(['1', '2', '3', '4', '5', '6', '7']).and_return(full_column, possible_column)
               allow(board).to receive(:try_adding_tile).with('4', 'Yellow').and_return('full')
@@ -128,13 +136,49 @@ describe Game do
           game.create_board
         end
       end
+
+      describe '#show_board' do
+        context 'board has been created' do
+          let(:board) { instance_double(Board) }
+          it 'sends a message to the board' do
+            expect(board).to receive(:display_board)
+            game.show_board(board)
+          end
+        end
+      end
 end
 
 describe Board do
   subject(:board) { described_class.new }
 
+  describe '#try_adding_tile' do
+    context 'the column has space' do
+      let(:current_cells_array) { [['Red', 'Red', 'Yellow', 'Red', 'empty', 'empty'],['Yellow', 'Yellow', 'Red', 'Yellow', 'empty', 'empty'], Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty')] }
+      let(:result_array) { [['Red', 'Red', 'Yellow', 'Red', 'Red', 'empty'], ['Yellow', 'Yellow', 'Red', 'Yellow', 'empty', 'empty'], Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty')] }
+      before do 
+        allow(board).to receive(:cells_array).and_return(current_cells_array)
+      end
+        it 'adds a red tile to the first column' do
+          expect(board).to receive(:cells_array).and_return(result_array)
+          board.try_adding_tile('1', 'Red')
+        end
+    end
 
+    context 'the column is full' do
+      let(:current_cells_array) { [['Red', 'Red', 'Yellow', 'Red', 'empty', 'empty'],['Yellow', 'Yellow', 'Red', 'Yellow', 'Yellow', 'Red'], Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty')] }
+      before do
+        allow(board).to receive(:cells_array).and_return current_cells_array
+      end
+        it "returns 'full' " do
+          expect(board.try_adding_tile('2', 'Yellow')).to eq('full')
+        end
 
+        it 'does not change the cells_array' do
+          board.try_adding_tile('2', 'Yellow')
+          expect(board.cells_array).to eq(current_cells_array)
+        end
+      end
+  end
 end
 
 
