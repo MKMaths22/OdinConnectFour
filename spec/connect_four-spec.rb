@@ -165,6 +165,7 @@ describe Game do
             lose_message = "Hard luck, Chris. Better luck next time!"
             expect(game).to receive(:puts).with(win_message)
             expect(game).to receive(:puts).with(lose_message)
+            game.announce_result
           end
         end
       end

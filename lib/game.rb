@@ -28,6 +28,8 @@ class Game
     board = create_board
     ask_second_disc
     turn_loop(board)
+    show_board(board)
+    announce_result
   end
 
   def create_players
