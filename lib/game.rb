@@ -91,7 +91,7 @@ class Game
   end
   
   def turn_loop(board)
-    one_turn(board) until game_won?
+    one_turn(board) until game_won? || game_drawn?
   end
   
   def one_turn(board)

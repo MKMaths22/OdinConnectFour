@@ -136,12 +136,21 @@ describe Game do
           let(:board) { instance_double(Board) }
           it 'executes one_turn exactly 6 times' do
             allow(game).to receive(:game_won?).exactly(8).times.and_return(false, false, false, false, false, false, false, true)
+            allow(game).to receive(:game_drawn?).exactly(8).times.and_return(false, false, false, false, false, false, false, false)
             expect(game).to receive(:one_turn).exactly(7).times
             game.turn_loop(board)
           end
         end
-      
-    
+
+        context 'game drawn after 42 turns' do
+          let(:board) { instance_double(Board) }
+          it 'executes one_turn exactly 42 times' do
+            allow(game).to receive(:game_won?).exactly(43).times.and_return(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false)
+            allow(game).to receive(:game_drawn?).exactly(43).times.and_return(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true)
+            expect(game).to receive(:one_turn).exactly(42).times
+            game.turn_loop(board)
+          end
+        end
       end
       
       
