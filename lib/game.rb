@@ -119,6 +119,15 @@ class Game
     end
   end
 
+  def announce_result
+    winning_player = current_player
+    losing_player = player_one == current_player ? player_two : player_one
+    win_message = "That's Connect Four! #{winning_player.name} wins, well done!"
+    lose_message = "Hard luck, #{losing_player.name}. Better luck next time!"
+    puts win_message
+    puts lose_message
+  end
+
 
 
 end

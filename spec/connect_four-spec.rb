@@ -151,14 +151,17 @@ describe Game do
       end
 
       describe '#announce_result' do
-        context 'Peter has won the game' do
+        context 'Peter has won the game versus Chris' do
           let(:chris) { instance_double(Player) }
           let(:peter) { instance_double(Player) }
           before do
             allow(peter).to receive(:name).and_return('Peter')
             allow(chris).to receive(:name).and_return('Chris')
             allow(game).to receive(:game_won).and_return(true)
+            allow(game).to receive(:game_drawn).and_return(false)
             allow(game).to receive(:current_player).and_return(peter)
+            allow(game).to receive(:player_one).and_return(peter)
+            allow(game).to receive(:player_two).and_return(chris)
           end
           it 'congratulates Peter and commisserates Chris' do
             win_message = "That's Connect Four! Peter wins, well done!"
@@ -167,6 +170,24 @@ describe Game do
             expect(game).to receive(:puts).with(lose_message)
             game.announce_result
           end
+        end
+
+        context 'the game is a draw between Peter and Chris' do
+          let(:chris) { instance_double(Player) }
+          let(:peter) { instance_double(Player) }
+          before do
+            allow(peter).to receive(:name).and_return('Peter')
+            allow(chris).to receive(:name).and_return('Chris')
+            allow(game).to receive(:game_drawn).and_return(true)
+            allow(game).to receive(:game_won).and_return(false)
+            allow(game).to receive(:player_one).and_return(peter)
+            allow(game).to receive(:player_two).and_return(chris)
+          end
+          it 'announces a draw, mentioning both players' do
+            draw_message = "The game ends in a draw, with no Connect Four. Well played, Peter and Chris!"
+            game.announce_result
+          end
+
         end
       end
       
