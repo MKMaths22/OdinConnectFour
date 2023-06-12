@@ -3,7 +3,7 @@
 class Game
   
   attr_accessor :player_one, :player_two, :current_player
-  attr_writer :game_won
+  attr_writer :game_won, :game_drawn
 
   def initialize
     @player_one = nil
@@ -120,7 +120,7 @@ class Game
   end
 
   def announce_result
-    if game_won
+    if game_won?
       winning_player = current_player
       losing_player = player_one == current_player ? player_two : player_one
       win_message = "That's Connect Four! #{winning_player.name} wins, well done!"
@@ -128,7 +128,7 @@ class Game
       puts win_message
       puts lose_message
     end
-    if game_drawn
+    if game_drawn?
       draw_message = "The game ends in a draw, with no Connect Four. Well played, #{player_one.name} and #{player_two.name}!"
     end
   end
