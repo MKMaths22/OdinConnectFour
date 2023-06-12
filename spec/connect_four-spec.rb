@@ -125,10 +125,7 @@ describe Game do
             expect(game).to receive(:puts).with(chris_red_message)
             game.tell_player_to_choose(chris)
           end
-
-        
         end
-
       end
       
       describe '#turn_loop' do
@@ -152,8 +149,25 @@ describe Game do
           end
         end
       end
-      
-      
+
+      describe '#announce_result' do
+        context 'Peter has won the game' do
+          let(:chris) { instance_double(Player) }
+          let(:peter) { instance_double(Player) }
+          before do
+            allow(peter).to receive(:name).and_return('Peter')
+            allow(chris).to receive(:name).and_return('Chris')
+            allow(game).to receive(:game_won).and_return(true)
+            allow(game).to receive(:current_player).and_return(peter)
+          end
+          it 'congratulates Peter and commisserates Chris' do
+            win_message = "That's Connect Four! Peter wins, well done!"
+            lose_message = "Hard luck, Chris. Better luck next time!"
+            expect(game).to receive(:puts).with(win_message)
+            expect(game).to receive(:puts).with(lose_message)
+          end
+        end
+      end
       
       describe '#player_places_disc' do
         context 'valid column entered first time' do

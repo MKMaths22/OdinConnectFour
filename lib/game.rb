@@ -98,7 +98,8 @@ class Game
     show_board(board)
     tell_player_to_choose(@current_player)
     player_places_disc(board, @current_player.disc)
-    toggle_player
+    toggle_player unless game_won?
+    # ensures that announce_result method knows that the current_player won the game
   end
 
   def tell_player_to_choose(player)
