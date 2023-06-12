@@ -130,7 +130,7 @@ describe Game do
         context 'game ends after just 7 turns' do
           let(:board) { instance_double(Board) }
           it 'executes one_turn exactly 6 times' do
-            allow(game).to receive(:game_over?).exactly(8).times.and_return(false, false, false, false, false, false, false, true)
+            allow(game).to receive(:game_won?).exactly(8).times.and_return(false, false, false, false, false, false, false, true)
             expect(game).to receive(:one_turn).exactly(7).times
             game.turn_loop(board)
           end
@@ -171,13 +171,13 @@ describe Game do
           possible_column = '5'
           let(:board) { instance_double(Board) }
             before do
-              allow(game).to receive(:game_over).and_return(false)
+              allow(game).to receive(:game_won).and_return(false)
             end
-            it 'changes the value of game_over' do
+            it 'changes the value of game_won' do
               allow(game).to receive(:valid_input).with(['1', '2', '3', '4', '5', '6', '7']).and_return(possible_column)
-              allow(board).to receive(:try_adding_tile).with('5', 'Yellow').and_return('game_over')
+              allow(board).to receive(:try_adding_tile).with('5', 'Yellow').and_return('game_won')
               game.player_places_disc(board, 'Yellow')
-              expect(game).to be_game_over
+              expect(game).to be_game_won
             end
         end
       
@@ -212,7 +212,7 @@ describe Board do
         allow(board).to receive(:cells_array).and_return(current_cells_array)
       end
         it 'adds a red tile to the first column' do
-          allow(board).to receive(:check_if_game_over?).with(result_array, 0, 4).and_return(false)
+          allow(board).to receive(:check_if_game_won?).with(result_array, 0, 4).and_return(false)
           expect(board).to receive(:cells_array).and_return(result_array)
           board.try_adding_tile('1', 'Red')
         end
@@ -239,39 +239,39 @@ describe Board do
       before do
         allow(board).to receive(:cells_array).and_return(current_cells_array)
       end
-      it 'declares the game to be over' do
-        allow(board).to receive(:check_if_game_over?).with(next_cells_array, 0, 3).and_return(true)
-        expect(board.try_adding_tile('1', 'Red')).to eq('game_over')
+      it 'declares the game to be won' do
+        allow(board).to receive(:check_if_game_won?).with(next_cells_array, 0, 3).and_return(true)
+        expect(board.try_adding_tile('1', 'Red')).to eq('game_won')
       end
     end
   end
 
-  describe '#check_if_game_over?' do
+  describe '#check_if_game_won?' do
     context 'a column of 4 is completed' do
       let(:cells_array) { [['Red', 'Red', 'Red', 'Red', 'empty', 'empty'], ['Yellow', 'Yellow', 'Yellow', 'empty', 'empty', 'empty'], Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty')] }
       it 'returns true' do
-        expect(board.check_if_game_over?(cells_array, 0, 3)).to eq(true)
+        expect(board.check_if_game_won?(cells_array, 0, 3)).to eq(true)
       end
     end
 
     context 'a row of 4 is completed' do
       let(:cells_array) { [['Red', 'Yellow', 'Yellow', 'Red', 'empty', 'empty'], ['Yellow', 'Yellow', 'Yellow', 'empty', 'empty', 'empty'], ['Red', 'Red', 'Yellow', 'Yellow', 'empty', 'empty'], ['Yellow', 'Red', 'Yellow', 'empty', 'empty', 'empty'], Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty')] }
       it 'returns true' do
-        expect(board.check_if_game_over?(cells_array, 1, 2)).to eq(true)
+        expect(board.check_if_game_won?(cells_array, 1, 2)).to eq(true)
       end
     end
 
     context 'a north-east diagonal of 4 is completed' do
       let(:cells_array) { [['Yellow', 'Yellow', 'Red', 'empty', 'empty', 'empty'], ['Yellow', 'Red', 'empty', 'empty', 'empty', 'empty'], ['Red', 'Red', 'Red', 'empty', 'empty', 'empty'], ['Yellow', 'Yellow', 'Yellow', 'Red', 'empty', 'empty'], ['Yellow', 'Red', 'Yellow', 'Red', 'Red', 'empty'], ['Red', 'Yellow', 'Yellow', 'Red', 'Yellow', 'empty'], ['Red', 'Yellow', 'Red', 'Yellow', 'Red', 'empty']] }
       it 'returns true' do
-        expect(board.check_if_game_over?(cells_array, 3, 3)).to eq(true)
+        expect(board.check_if_game_won?(cells_array, 3, 3)).to eq(true)
       end
     end
 
     context 'a north-west diagonal of 4 is completed' do
       let(:cells_array) { [['Red', 'Yellow', 'Red', 'Yellow', 'Red', 'empty'], ['Red', 'Yellow', 'Yellow', 'Red', 'Yellow', 'empty'], ['Yellow', 'Red', 'Yellow', 'Red', 'Red', 'empty'], ['Yellow', 'Yellow', 'Yellow', 'Red', 'empty', 'empty'], ['Red', 'Red', 'Red', 'empty', 'empty', 'empty'], ['Yellow', 'Red', 'empty', 'empty', 'empty', 'empty'], ['Yellow', 'Yellow', 'Yellow', 'empty', 'empty', 'empty']] }
       it 'returns true' do
-        expect(board.check_if_game_over?(cells_array, 3, 3)).to eq(true)
+        expect(board.check_if_game_won?(cells_array, 3, 3)).to eq(true)
       end
     end
 
@@ -281,7 +281,7 @@ describe Board do
     context 'no column, row, or diagonal is completed' do
       let(:cells_array) { [['Red', 'Red', 'Red', 'empty', 'empty', 'empty'], ['Yellow', 'Yellow', 'Yellow', 'empty', 'empty', 'empty'], Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty')] }
       it 'returns false' do
-        expect(board.check_if_game_over?(cells_array, 0, 2)).to eq(false)
+        expect(board.check_if_game_won?(cells_array, 0, 2)).to eq(false)
       end
 
     end

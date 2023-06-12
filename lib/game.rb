@@ -3,17 +3,17 @@
 class Game
   
   attr_accessor :player_one, :player_two, :current_player
-  attr_writer :game_over
+  attr_writer :game_won
 
   def initialize
     @player_one = nil
     @player_two = nil
     @current_player = player_one
-    @game_over = false
+    @game_won = false
   end
 
-  def game_over?
-    @game_over
+  def game_won?
+    @game_won
   end
 
   def play_game
@@ -85,7 +85,7 @@ class Game
   end
   
   def turn_loop(board)
-    one_turn(board) until game_over?
+    one_turn(board) until game_won?
   end
   
   def one_turn(board)
@@ -102,8 +102,8 @@ class Game
   def player_places_disc(board, disc)
     column_chosen = valid_input(['1', '2', '3', '4', '5', '6', '7'])
     result = board.try_adding_tile(column_chosen, disc)
-    if result == 'game_over'
-      @game_over = true
+    if result == 'game_won'
+      @game_won = true
     end
     if result == 'full'
       puts 'That column is full. Please choose another.'
@@ -148,14 +148,14 @@ class Board
 
     cell_to_use = cells_array[actual_column].index('empty')
     cells_array[actual_column][cell_to_use] = disc
-    return 'game_over' if check_if_game_over?(cells_array, actual_column, cell_to_use)
+    return 'game_won' if check_if_game_won?(cells_array, actual_column, cell_to_use)
   end
 
   def display_board
     puts 'dummy_result'
   end
 
-  def check_if_game_over?(array, column, row)
+  def check_if_game_won?(array, column, row)
     disc = array[column][row]
     return true if array.dig(column, row - 1) == disc && array.dig(column, row - 2) == disc && array.dig(column, row - 3) == disc
     
