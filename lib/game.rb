@@ -10,10 +10,15 @@ class Game
     @player_two = nil
     @current_player = nil
     @game_won = false
+    @game_drawn = false
   end
 
   def game_won?
     @game_won
+  end
+
+  def game_drawn?
+    @game_drawn
   end
 
   def play_game
@@ -104,6 +109,7 @@ class Game
     column_chosen = valid_input(['1', '2', '3', '4', '5', '6', '7'])
     result = board.try_adding_tile(column_chosen, disc)
     @game_won = true if result == 'game_won'
+    @game_drawn = true if result == 'game_drawn'
     if result == 'full'
       puts 'That column is full. Please choose another.'
       player_places_disc(board, disc)

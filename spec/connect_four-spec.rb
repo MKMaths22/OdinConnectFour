@@ -185,7 +185,20 @@ describe Game do
               expect(game).to be_game_won
             end
         end
-      
+
+        context 'possible column entered, which draws the game' do
+          possible_column = '5'
+          let(:board) { instance_double(Board) }
+          before do
+            allow(game).to receive(:game_drawn).and_return(false)
+          end
+          it 'changes the value of game_drawn' do
+            allow(game).to receive(:valid_input).with(['1', '2', '3', '4', '5', '6', '7']).and_return(possible_column)
+            allow(board).to receive(:try_adding_tile).with('5', 'Yellow').and_return('game_drawn')
+            game.player_places_disc(board, 'Yellow')
+            expect(game).to be_game_drawn
+          end
+        end
       end
 
       describe '#create_board' do
