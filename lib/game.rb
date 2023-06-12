@@ -156,6 +156,7 @@ class Board
     return 'game_won' if check_if_game_won?(cells_array, actual_column, cell_to_use)
 
     return 'game_drawn' if check_if_game_drawn?(cells_array, actual_column, cell_to_use)
+
   end
 
   def display_board

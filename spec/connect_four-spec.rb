@@ -272,6 +272,19 @@ describe Board do
       end
     end
 
+    context 'ends the game in a win with the board full' do
+      let(:current_cells_array) { [['Red', 'Yellow', 'Red', 'Yellow', 'Red', 'Yellow'], ['Yellow', 'Red', 'Yellow', 'Red', 'Yellow', 'Red'], ['Red', 'Yellow', 'Red', 'Yellow', 'Red', 'Yellow'], ['Red', 'Yellow', 'Red', 'Yellow', 'Red', 'empty'], ['Red', 'Yellow', 'Red', 'Yellow', 'Red', 'Yellow'], ['Yellow', 'Red', 'Yellow', 'Red', 'Yellow', 'Red'], ['Red', 'Yellow', 'Red', 'Yellow', 'Red', 'Yellow'] ]}
+      let(:next_cells_array) { [['Red', 'Yellow', 'Red', 'Yellow', 'Red', 'Yellow'], ['Yellow', 'Red', 'Yellow', 'Red', 'Yellow', 'Red'], ['Red', 'Yellow', 'Red', 'Yellow', 'Red', 'Yellow'], ['Red', 'Yellow', 'Red', 'Yellow', 'Red', 'Red'], ['Red', 'Yellow', 'Red', 'Yellow', 'Red', 'Yellow'], ['Yellow', 'Red', 'Yellow', 'Red', 'Yellow', 'Red'], ['Red', 'Yellow', 'Red', 'Yellow', 'Red', 'Yellow'] ]}
+      before do
+        allow(board).to receive(:cells_array).and_return(current_cells_array)
+      end
+      it 'declares the game to be won' do
+        allow(board).to receive(:check_if_game_won?).with(next_cells_array, 3, 5).and_return(true)
+        allow(board).to receive(:check_if_game_drawn?).with(next_cells_array, 3, 5).and_return(true)
+        expect(board.try_adding_tile('4', 'Red')).to eq('game_won')
+      end
+    end
+
     context 'this ends the game in a draw' do
       let(:current_cells_array) { [['Yellow', 'Red', 'Yellow', 'Yellow', 'Red', 'Yellow'], ['Red', 'Yellow', 'Red', 'Red', 'Yellow', 'Red'], ['Yellow', 'Red', 'Yellow', 'Yellow', 'Red', 'Yellow'], ['Red', 'Yellow', 'Red', 'Red', 'Yellow', 'Red'], ['Yellow', 'Red', 'Yellow', 'Yellow', 'Red', 'Yellow'], ['Red', 'Yellow', 'Red', 'Red', 'Yellow', 'Red'], ['Yellow', 'Red', 'Yellow', 'Yellow', 'Red', 'empty']] }
       let(:next_cells_array) { [['Yellow', 'Red', 'Yellow', 'Yellow', 'Red', 'Yellow'], ['Red', 'Yellow', 'Red', 'Red', 'Yellow', 'Red'], ['Yellow', 'Red', 'Yellow', 'Yellow', 'Red', 'Yellow'], ['Red', 'Yellow', 'Red', 'Red', 'Yellow', 'Red'], ['Yellow', 'Red', 'Yellow', 'Yellow', 'Red', 'Yellow'], ['Red', 'Yellow', 'Red', 'Red', 'Yellow', 'Red'], ['Yellow', 'Red', 'Yellow', 'Yellow', 'Red', 'Yellow']] }
