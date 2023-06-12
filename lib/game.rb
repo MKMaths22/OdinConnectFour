@@ -188,5 +188,9 @@ class Board
     return false
   end 
 
+  def check_if_game_drawn?(array, column, row)
+    false
+  end
+
 end
 

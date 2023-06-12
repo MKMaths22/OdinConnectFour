@@ -275,17 +275,21 @@ describe Board do
       end
     end
 
-    
-    
-    
     context 'no column, row, or diagonal is completed' do
       let(:cells_array) { [['Red', 'Red', 'Red', 'empty', 'empty', 'empty'], ['Yellow', 'Yellow', 'Yellow', 'empty', 'empty', 'empty'], Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty')] }
       it 'returns false' do
         expect(board.check_if_game_won?(cells_array, 0, 2)).to eq(false)
       end
-
     end
-  
+  end
+
+  describe '#check_if_game_drawn?' do
+    context 'the board is not full' do
+      let(:cells_array) { [['Red', 'Red', 'Red', 'Yellow', 'Red', 'Yellow'], ['Yellow', 'Yellow', 'Yellow', 'empty', 'empty', 'empty'], Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty')] }
+      it 'returns false' do
+        expect(board.check_if_game_drawn?(cells_array, 0, 5)).to eq(false)
+      end
+    end
   end
 end
 
