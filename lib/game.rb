@@ -120,12 +120,17 @@ class Game
   end
 
   def announce_result
-    winning_player = current_player
-    losing_player = player_one == current_player ? player_two : player_one
-    win_message = "That's Connect Four! #{winning_player.name} wins, well done!"
-    lose_message = "Hard luck, #{losing_player.name}. Better luck next time!"
-    puts win_message
-    puts lose_message
+    if game_won
+      winning_player = current_player
+      losing_player = player_one == current_player ? player_two : player_one
+      win_message = "That's Connect Four! #{winning_player.name} wins, well done!"
+      lose_message = "Hard luck, #{losing_player.name}. Better luck next time!"
+      puts win_message
+      puts lose_message
+    end
+    if game_drawn
+      draw_message = "The game ends in a draw, with no Connect Four. Well played, #{player_one.name} and #{player_two.name}!"
+    end
   end
 
 
