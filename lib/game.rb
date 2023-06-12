@@ -130,6 +130,7 @@ class Game
     end
     if game_drawn?
       draw_message = "The game ends in a draw, with no Connect Four. Well played, #{player_one.name} and #{player_two.name}!"
+      puts draw_message
     end
   end
 
