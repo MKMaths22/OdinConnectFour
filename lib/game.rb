@@ -8,7 +8,7 @@ class Game
   def initialize
     @player_one = nil
     @player_two = nil
-    @current_player = player_one
+    @current_player = nil
     @game_won = false
   end
 
@@ -20,18 +20,19 @@ class Game
     puts "Welcome to Connect Four!"
     sleep(2)
     create_players
-    create_board
+    board = create_board
     ask_second_disc
-    turn_loop
+    turn_loop(board)
   end
 
   def create_players
     @player_one = Player.new(ask_first_name)
+    @current_player = @player_one
     @player_two = Player.new(ask_second_name)
   end
 
   def create_board
-    board = Board.new
+    Board.new
   end
 
   def ask_first_name
@@ -102,9 +103,7 @@ class Game
   def player_places_disc(board, disc)
     column_chosen = valid_input(['1', '2', '3', '4', '5', '6', '7'])
     result = board.try_adding_tile(column_chosen, disc)
-    if result == 'game_won'
-      @game_won = true
-    end
+    @game_won = true if result == 'game_won'
     if result == 'full'
       puts 'That column is full. Please choose another.'
       player_places_disc(board, disc)
@@ -149,6 +148,8 @@ class Board
     cell_to_use = cells_array[actual_column].index('empty')
     cells_array[actual_column][cell_to_use] = disc
     return 'game_won' if check_if_game_won?(cells_array, actual_column, cell_to_use)
+
+    return 'game_drawn' if check_if_game_drawn?(cells_array, actual_column, cell_to_use)
   end
 
   def display_board
@@ -189,6 +190,10 @@ class Board
   end 
 
   def check_if_game_drawn?(array, column, row)
+    return false unless row == 5
+
+    return true unless [array.dig(0, 5), array.dig(1, 5), array.dig(2, 5), array.dig(3, 5), array.dig(4, 5), array.dig(5, 5), array.dig(6, 5)].include?('empty')
+
     false
   end
 

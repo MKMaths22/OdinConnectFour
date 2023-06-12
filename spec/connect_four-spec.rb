@@ -25,6 +25,11 @@ describe Game do
           expect(Player).to receive(:new).with('Chris')
           game.create_players
         end
+
+        it "sets the current player to equal player one" do
+          game.create_players
+          expect(game.instance_variable_get(:@current_player)).to equal(game.instance_variable_get(:@player_one))
+        end
       end
     end
 
@@ -167,7 +172,7 @@ describe Game do
             end
         end  
       
-        context 'possible column entered, which ends the game' do
+        context 'possible column entered, which wins the game' do
           possible_column = '5'
           let(:board) { instance_double(Board) }
             before do
@@ -233,7 +238,7 @@ describe Board do
       end
     end
 
-    context 'this ends the game' do
+    context 'this ends the game in a win' do
       let(:current_cells_array) { [['Red', 'Red', 'Red', 'empty', 'empty', 'empty'], ['Yellow', 'Yellow', 'Red', 'Yellow', 'Yellow', 'empty'], Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty')] }
       let(:next_cells_array) { [['Red', 'Red', 'Red', 'Red', 'empty', 'empty'], ['Yellow', 'Yellow', 'Red', 'Yellow', 'Yellow', 'empty'], Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty')] }
       before do
@@ -242,6 +247,18 @@ describe Board do
       it 'declares the game to be won' do
         allow(board).to receive(:check_if_game_won?).with(next_cells_array, 0, 3).and_return(true)
         expect(board.try_adding_tile('1', 'Red')).to eq('game_won')
+      end
+    end
+
+    context 'this ends the game in a draw' do
+      let(:current_cells_array) { [['Yellow', 'Red', 'Yellow', 'Yellow', 'Red', 'Yellow'], ['Red', 'Yellow', 'Red', 'Red', 'Yellow', 'Red'], ['Yellow', 'Red', 'Yellow', 'Yellow', 'Red', 'Yellow'], ['Red', 'Yellow', 'Red', 'Red', 'Yellow', 'Red'], ['Yellow', 'Red', 'Yellow', 'Yellow', 'Red', 'Yellow'], ['Red', 'Yellow', 'Red', 'Red', 'Yellow', 'Red'], ['Yellow', 'Red', 'Yellow', 'Yellow', 'Red', 'empty']] }
+      let(:next_cells_array) { [['Yellow', 'Red', 'Yellow', 'Yellow', 'Red', 'Yellow'], ['Red', 'Yellow', 'Red', 'Red', 'Yellow', 'Red'], ['Yellow', 'Red', 'Yellow', 'Yellow', 'Red', 'Yellow'], ['Red', 'Yellow', 'Red', 'Red', 'Yellow', 'Red'], ['Yellow', 'Red', 'Yellow', 'Yellow', 'Red', 'Yellow'], ['Red', 'Yellow', 'Red', 'Red', 'Yellow', 'Red'], ['Yellow', 'Red', 'Yellow', 'Yellow', 'Red', 'Yellow']] }
+      before do
+        allow(board).to receive(:cells_array).and_return(current_cells_array)
+      end
+      it 'declares the game to be a draw' do
+        allow(board).to receive(:check_if_game_drawn?).with(next_cells_array, 6, 5).and_return(true)
+        expect(board.try_adding_tile('7', 'Yellow')).to eq('game_drawn')
       end
     end
   end
@@ -288,6 +305,13 @@ describe Board do
       let(:cells_array) { [['Red', 'Red', 'Red', 'Yellow', 'Red', 'Yellow'], ['Yellow', 'Yellow', 'Yellow', 'empty', 'empty', 'empty'], Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty')] }
       it 'returns false' do
         expect(board.check_if_game_drawn?(cells_array, 0, 5)).to eq(false)
+      end
+    end
+
+    context 'the board is full' do
+      let(:cells_array) { [['Yellow', 'Red', 'Yellow', 'Yellow', 'Red', 'Yellow'], ['Red', 'Yellow', 'Red', 'Red', 'Yellow', 'Red'], ['Yellow', 'Red', 'Yellow', 'Yellow', 'Red', 'Yellow'], ['Red', 'Yellow', 'Red', 'Red', 'Yellow', 'Red'], ['Yellow', 'Red', 'Yellow', 'Yellow', 'Red', 'Yellow'], ['Red', 'Yellow', 'Red', 'Red', 'Yellow', 'Red'], ['Yellow', 'Red', 'Yellow', 'Yellow', 'Red', 'Yellow']] }
+      it 'returns true' do
+        expect(board.check_if_game_drawn?(cells_array, 1, 5)).to eq(true)
       end
     end
   end
