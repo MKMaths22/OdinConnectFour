@@ -1,4 +1,6 @@
 # frozen-string-literal: true
+require 'colorize'
+
 # The Game class takes care of initializing other classes and whose turn it is next
 class Game
   
@@ -22,7 +24,7 @@ class Game
   end
 
   def play_game
-    puts "Welcome to Connect Four!"
+    puts "Welcome to Connect Four!".yellow
     sleep(2)
     create_players
     board = create_board
