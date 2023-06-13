@@ -34,6 +34,7 @@ yel_up = "       ".colorize(:background => :light_yellow)
 yel_lo = "_______".colorize(:color => :black, :background => :light_yellow)
 non_up = "       ".colorize(:background => :white)
 non_lo = "_______".colorize(:color => :black, :background => :white)
+numbers = "    1       2       3       4       5       6       7"
 
 puts v + non_up + v + non_up + v + non_up + v + red_up + v + non_up + v + non_up + v + non_up + v
 puts v + non_lo + v + non_lo + v + non_lo + v + red_lo + v + non_lo + v + non_lo + v + non_lo + v

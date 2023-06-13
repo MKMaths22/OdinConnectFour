@@ -13,7 +13,6 @@ describe Game do
     
     end
       
-      
     describe "#create_players" do
       context 'When Peter and Chris play' do
         before do 
@@ -179,7 +178,7 @@ describe Game do
           end
           it 'congratulates Peter and commisserates Chris' do
             win_message = "That's Connect Four! Peter wins, well done!"
-            lose_message = "Hard luck, Chris. Better luck next time!"
+            lose_message = "Commiserations, Chris. Better luck next time!"
             expect(game).to receive(:puts).with(win_message)
             expect(game).to receive(:puts).with(lose_message)
             game.announce_result
@@ -399,6 +398,34 @@ describe Board do
       it 'returns true' do
         expect(board.check_if_game_drawn?(cells_array, 1, 5)).to eq(true)
       end
+    end
+  end
+
+  describe '#top_half' do
+    it 'gives seven white spaces for nil' do
+      expect(board.top_half(nil)).to eq('       '.colorize(:background => :white))
+    end
+
+   it 'gives seven red spaces for R' do
+    expect(board.top_half('R')).to eq('       '.colorize(:background => :red))
+   end
+
+   it 'gives seven light yellow spaces for Y' do
+    expect(board.top_half('Y')).to eq('       '.colorize(:background => :light_yellow))
+   end
+  end
+  
+  describe '#low_half' do
+    it 'gives seven black underscores on white for nil' do
+      expect(board.low_half(nil)).to eq('_______'.colorize(:color => :black, :background => :white))
+    end
+
+    it 'gives seven black underscores on red for R' do
+      expect(board.low_half('R')).to eq('_______'.colorize(:color => :black, :background => :red))
+    end
+
+    it 'gives seven black underscores on light yellow for Y' do
+      expect(board.low_half('Y')).to eq('_______'.colorize(:color => :black, :background => :light_yellow))
     end
   end
 end

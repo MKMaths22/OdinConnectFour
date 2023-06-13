@@ -130,7 +130,7 @@ class Game
       winning_player = current_player
       losing_player = player_one == current_player ? player_two : player_one
       win_message = "That's Connect Four! #{winning_player.name} wins, well done!"
-      lose_message = "Hard luck, #{losing_player.name}. Better luck next time!"
+      lose_message = "Commiserations, #{losing_player.name}. Better luck next time!"
       puts win_message
       puts lose_message
     end
@@ -183,8 +183,33 @@ class Board
 
   end
 
+  def top_half(char)
+    seven_spaces = '       '
+    return seven_spaces.colorize(:background => :white) unless char
+    char == 'R' ? seven_spaces.colorize(:background => :red) : seven_spaces.colorize(:background => :light_yellow)
+  end
+
+  def low_half(char)
+    seven_scores = '_______'
+    return seven_scores.colorize(:color => :black, :background => :white) unless char
+    char == 'R' ? seven_scores.colorize(:color => :black, :background => :red) : seven_scores.colorize(:color => :black, :background => :light_yellow)
+  end
+  
   def display_board
-    puts 'dummy_result'
+    v = "|".colorize(:color => :black, :background => :white)
+    numbers = "    1       2       3       4       5       6       7"
+    string = ''
+      [5, 4, 3, 2, 1, 0].each do |i|
+        [0, 1, 2, 3, 4, 5, 6].each do |j|
+          string += (v + top_half(cells_array.dig(j, i)))
+        end
+        string += (v + "\n")
+        [0, 1, 2, 3, 4, 5, 6].each do |j|
+          string += (v + low_half(cells_array.dig(j, i)))
+        end
+        string += (v + "\n")
+      end
+    puts string + numbers
   end
 
   def check_if_game_won?(array, column, row)
