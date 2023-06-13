@@ -106,8 +106,12 @@ class Game
     # ensures that announce_result method knows that the current_player won the game
   end
 
+  def give_colour_name(string)
+    string == 'R' ? 'Red' : 'Yellow'
+  end
+  
   def tell_player_to_choose(player)
-    puts "#{player.name}, please choose an available column numbered from 1 to 7 for a #{player.disc} disc."
+    puts "#{player.name}, please choose an available column numbered from 1 to 7 for a #{give_colour_name(player.disc)} disc."
   end
 
   def player_places_disc(board, disc)
@@ -150,11 +154,11 @@ class Player
   end
 
   def set_red
-    @disc = 'Red'
+    @disc = 'R'
   end
 
   def set_yellow
-    @disc = 'Yellow'
+    @disc = 'Y'
   end
 end
 
