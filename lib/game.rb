@@ -163,15 +163,15 @@ class Board
   attr_accessor :cells_array
   
   def initialize
-    @cells_array = Array.new(7) { Array.new(6, 'empty') }
+    @cells_array = Array.new(7) { Array.new(6, nil) }
   end
 
   def try_adding_tile(column, disc)
     # The column is inputted as a STRING numbered from 1 to 7, which will have to be reinterpreted 
     actual_column = column.to_i - 1
-    return 'full' unless cells_array[actual_column][5] == 'empty'
+    return 'full' unless cells_array[actual_column][5] == nil
 
-    cell_to_use = cells_array[actual_column].index('empty')
+    cell_to_use = cells_array[actual_column].index(nil)
     cells_array[actual_column][cell_to_use] = disc
     return 'game_won' if check_if_game_won?(cells_array, actual_column, cell_to_use)
 
@@ -219,7 +219,7 @@ class Board
   def check_if_game_drawn?(array, column, row)
     return false unless row == 5
 
-    return true unless [array.dig(0, 5), array.dig(1, 5), array.dig(2, 5), array.dig(3, 5), array.dig(4, 5), array.dig(5, 5), array.dig(6, 5)].include?('empty')
+    return true unless [array.dig(0, 5), array.dig(1, 5), array.dig(2, 5), array.dig(3, 5), array.dig(4, 5), array.dig(5, 5), array.dig(6, 5)].include?(nil)
 
     false
   end

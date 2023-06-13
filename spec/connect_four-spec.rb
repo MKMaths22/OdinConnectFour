@@ -270,8 +270,8 @@ describe Board do
 
   describe '#try_adding_tile' do
     context 'the column has space' do
-      let(:current_cells_array) { [['Red', 'Red', 'Yellow', 'Red', 'empty', 'empty'],['Yellow', 'Yellow', 'Red', 'Yellow', 'empty', 'empty'], Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty')] }
-      let(:result_array) { [['Red', 'Red', 'Yellow', 'Red', 'Red', 'empty'], ['Yellow', 'Yellow', 'Red', 'Yellow', 'empty', 'empty'], Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty')] }
+      let(:current_cells_array) { [['Red', 'Red', 'Yellow', 'Red', nil, nil],['Yellow', 'Yellow', 'Red', 'Yellow', nil, nil], Array.new(6, nil), Array.new(6, nil), Array.new(6, nil), Array.new(6, nil), Array.new(6, nil)] }
+      let(:result_array) { [['Red', 'Red', 'Yellow', 'Red', 'Red', nil], ['Yellow', 'Yellow', 'Red', 'Yellow', nil, nil], Array.new(6, nil), Array.new(6, nil), Array.new(6, nil), Array.new(6, nil), Array.new(6, nil)] }
       before do 
         allow(board).to receive(:cells_array).and_return(current_cells_array)
       end
@@ -283,7 +283,7 @@ describe Board do
     end
 
     context 'the column is full' do
-      let(:current_cells_array) { [['Red', 'Red', 'Yellow', 'Red', 'empty', 'empty'],['Yellow', 'Yellow', 'Red', 'Yellow', 'Yellow', 'Red'], Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty')] }
+      let(:current_cells_array) { [['Red', 'Red', 'Yellow', 'Red', nil, nil],['Yellow', 'Yellow', 'Red', 'Yellow', 'Yellow', 'Red'], Array.new(6, nil), Array.new(6, nil), Array.new(6, nil), Array.new(6, nil), Array.new(6, nil)] }
       before do
         allow(board).to receive(:cells_array).and_return(current_cells_array)
       end
@@ -298,8 +298,8 @@ describe Board do
     end
 
     context 'this ends the game in a win' do
-      let(:current_cells_array) { [['Red', 'Red', 'Red', 'empty', 'empty', 'empty'], ['Yellow', 'Yellow', 'Red', 'Yellow', 'Yellow', 'empty'], Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty')] }
-      let(:next_cells_array) { [['Red', 'Red', 'Red', 'Red', 'empty', 'empty'], ['Yellow', 'Yellow', 'Red', 'Yellow', 'Yellow', 'empty'], Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty')] }
+      let(:current_cells_array) { [['Red', 'Red', 'Red', nil, nil, nil], ['Yellow', 'Yellow', 'Red', 'Yellow', 'Yellow', nil], Array.new(6, nil), Array.new(6, nil), Array.new(6, nil), Array.new(6, nil), Array.new(6, nil)] }
+      let(:next_cells_array) { [['Red', 'Red', 'Red', 'Red', nil, nil], ['Yellow', 'Yellow', 'Red', 'Yellow', 'Yellow', nil], Array.new(6, nil), Array.new(6, nil), Array.new(6, nil), Array.new(6, nil), Array.new(6, nil)] }
       before do
         allow(board).to receive(:cells_array).and_return(current_cells_array)
       end
@@ -310,7 +310,7 @@ describe Board do
     end
 
     context 'ends the game in a win with the board full' do
-      let(:current_cells_array) { [['Red', 'Yellow', 'Red', 'Yellow', 'Red', 'Yellow'], ['Yellow', 'Red', 'Yellow', 'Red', 'Yellow', 'Red'], ['Red', 'Yellow', 'Red', 'Yellow', 'Red', 'Yellow'], ['Red', 'Yellow', 'Red', 'Yellow', 'Red', 'empty'], ['Red', 'Yellow', 'Red', 'Yellow', 'Red', 'Yellow'], ['Yellow', 'Red', 'Yellow', 'Red', 'Yellow', 'Red'], ['Red', 'Yellow', 'Red', 'Yellow', 'Red', 'Yellow'] ]}
+      let(:current_cells_array) { [['Red', 'Yellow', 'Red', 'Yellow', 'Red', 'Yellow'], ['Yellow', 'Red', 'Yellow', 'Red', 'Yellow', 'Red'], ['Red', 'Yellow', 'Red', 'Yellow', 'Red', 'Yellow'], ['Red', 'Yellow', 'Red', 'Yellow', 'Red', nil], ['Red', 'Yellow', 'Red', 'Yellow', 'Red', 'Yellow'], ['Yellow', 'Red', 'Yellow', 'Red', 'Yellow', 'Red'], ['Red', 'Yellow', 'Red', 'Yellow', 'Red', 'Yellow'] ]}
       let(:next_cells_array) { [['Red', 'Yellow', 'Red', 'Yellow', 'Red', 'Yellow'], ['Yellow', 'Red', 'Yellow', 'Red', 'Yellow', 'Red'], ['Red', 'Yellow', 'Red', 'Yellow', 'Red', 'Yellow'], ['Red', 'Yellow', 'Red', 'Yellow', 'Red', 'Red'], ['Red', 'Yellow', 'Red', 'Yellow', 'Red', 'Yellow'], ['Yellow', 'Red', 'Yellow', 'Red', 'Yellow', 'Red'], ['Red', 'Yellow', 'Red', 'Yellow', 'Red', 'Yellow'] ]}
       before do
         allow(board).to receive(:cells_array).and_return(current_cells_array)
@@ -323,7 +323,7 @@ describe Board do
     end
 
     context 'this ends the game in a draw' do
-      let(:current_cells_array) { [['Yellow', 'Red', 'Yellow', 'Yellow', 'Red', 'Yellow'], ['Red', 'Yellow', 'Red', 'Red', 'Yellow', 'Red'], ['Yellow', 'Red', 'Yellow', 'Yellow', 'Red', 'Yellow'], ['Red', 'Yellow', 'Red', 'Red', 'Yellow', 'Red'], ['Yellow', 'Red', 'Yellow', 'Yellow', 'Red', 'Yellow'], ['Red', 'Yellow', 'Red', 'Red', 'Yellow', 'Red'], ['Yellow', 'Red', 'Yellow', 'Yellow', 'Red', 'empty']] }
+      let(:current_cells_array) { [['Yellow', 'Red', 'Yellow', 'Yellow', 'Red', 'Yellow'], ['Red', 'Yellow', 'Red', 'Red', 'Yellow', 'Red'], ['Yellow', 'Red', 'Yellow', 'Yellow', 'Red', 'Yellow'], ['Red', 'Yellow', 'Red', 'Red', 'Yellow', 'Red'], ['Yellow', 'Red', 'Yellow', 'Yellow', 'Red', 'Yellow'], ['Red', 'Yellow', 'Red', 'Red', 'Yellow', 'Red'], ['Yellow', 'Red', 'Yellow', 'Yellow', 'Red', nil]] }
       let(:next_cells_array) { [['Yellow', 'Red', 'Yellow', 'Yellow', 'Red', 'Yellow'], ['Red', 'Yellow', 'Red', 'Red', 'Yellow', 'Red'], ['Yellow', 'Red', 'Yellow', 'Yellow', 'Red', 'Yellow'], ['Red', 'Yellow', 'Red', 'Red', 'Yellow', 'Red'], ['Yellow', 'Red', 'Yellow', 'Yellow', 'Red', 'Yellow'], ['Red', 'Yellow', 'Red', 'Red', 'Yellow', 'Red'], ['Yellow', 'Red', 'Yellow', 'Yellow', 'Red', 'Yellow']] }
       before do
         allow(board).to receive(:cells_array).and_return(current_cells_array)
@@ -337,35 +337,35 @@ describe Board do
 
   describe '#check_if_game_won?' do
     context 'a column of 4 is completed' do
-      let(:cells_array) { [['Red', 'Red', 'Red', 'Red', 'empty', 'empty'], ['Yellow', 'Yellow', 'Yellow', 'empty', 'empty', 'empty'], Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty')] }
+      let(:cells_array) { [['Red', 'Red', 'Red', 'Red', nil, nil], ['Yellow', 'Yellow', 'Yellow', nil, nil, nil], Array.new(6, nil), Array.new(6, nil), Array.new(6, nil), Array.new(6, nil), Array.new(6, nil)] }
       it 'returns true' do
         expect(board.check_if_game_won?(cells_array, 0, 3)).to eq(true)
       end
     end
 
     context 'a row of 4 is completed' do
-      let(:cells_array) { [['Red', 'Yellow', 'Yellow', 'Red', 'empty', 'empty'], ['Yellow', 'Yellow', 'Yellow', 'empty', 'empty', 'empty'], ['Red', 'Red', 'Yellow', 'Yellow', 'empty', 'empty'], ['Yellow', 'Red', 'Yellow', 'empty', 'empty', 'empty'], Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty')] }
+      let(:cells_array) { [['Red', 'Yellow', 'Yellow', 'Red', nil, nil], ['Yellow', 'Yellow', 'Yellow', nil, nil, nil], ['Red', 'Red', 'Yellow', 'Yellow', nil, nil], ['Yellow', 'Red', 'Yellow', nil, nil, nil], Array.new(6, nil), Array.new(6, nil), Array.new(6, nil)] }
       it 'returns true' do
         expect(board.check_if_game_won?(cells_array, 1, 2)).to eq(true)
       end
     end
 
     context 'a north-east diagonal of 4 is completed' do
-      let(:cells_array) { [['Yellow', 'Yellow', 'Red', 'empty', 'empty', 'empty'], ['Yellow', 'Red', 'empty', 'empty', 'empty', 'empty'], ['Red', 'Red', 'Red', 'empty', 'empty', 'empty'], ['Yellow', 'Yellow', 'Yellow', 'Red', 'empty', 'empty'], ['Yellow', 'Red', 'Yellow', 'Red', 'Red', 'empty'], ['Red', 'Yellow', 'Yellow', 'Red', 'Yellow', 'empty'], ['Red', 'Yellow', 'Red', 'Yellow', 'Red', 'empty']] }
+      let(:cells_array) { [['Yellow', 'Yellow', 'Red', nil, nil, nil], ['Yellow', 'Red', nil, nil, nil, nil], ['Red', 'Red', 'Red', nil, nil, nil], ['Yellow', 'Yellow', 'Yellow', 'Red', nil, nil], ['Yellow', 'Red', 'Yellow', 'Red', 'Red', nil], ['Red', 'Yellow', 'Yellow', 'Red', 'Yellow', nil], ['Red', 'Yellow', 'Red', 'Yellow', 'Red', nil]] }
       it 'returns true' do
         expect(board.check_if_game_won?(cells_array, 3, 3)).to eq(true)
       end
     end
 
     context 'a north-west diagonal of 4 is completed' do
-      let(:cells_array) { [['Red', 'Yellow', 'Red', 'Yellow', 'Red', 'empty'], ['Red', 'Yellow', 'Yellow', 'Red', 'Yellow', 'empty'], ['Yellow', 'Red', 'Yellow', 'Red', 'Red', 'empty'], ['Yellow', 'Yellow', 'Yellow', 'Red', 'empty', 'empty'], ['Red', 'Red', 'Red', 'empty', 'empty', 'empty'], ['Yellow', 'Red', 'empty', 'empty', 'empty', 'empty'], ['Yellow', 'Yellow', 'Yellow', 'empty', 'empty', 'empty']] }
+      let(:cells_array) { [['Red', 'Yellow', 'Red', 'Yellow', 'Red', nil], ['Red', 'Yellow', 'Yellow', 'Red', 'Yellow', nil], ['Yellow', 'Red', 'Yellow', 'Red', 'Red', nil], ['Yellow', 'Yellow', 'Yellow', 'Red', nil, nil], ['Red', 'Red', 'Red', nil, nil, nil], ['Yellow', 'Red', nil, nil, nil, nil], ['Yellow', 'Yellow', 'Yellow', nil, nil, nil]] }
       it 'returns true' do
         expect(board.check_if_game_won?(cells_array, 3, 3)).to eq(true)
       end
     end
 
     context 'no column, row, or diagonal is completed' do
-      let(:cells_array) { [['Red', 'Red', 'Red', 'empty', 'empty', 'empty'], ['Yellow', 'Yellow', 'Yellow', 'empty', 'empty', 'empty'], Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty')] }
+      let(:cells_array) { [['Red', 'Red', 'Red', nil, nil, nil], ['Yellow', 'Yellow', 'Yellow', nil, nil, nil], Array.new(6, nil), Array.new(6, nil), Array.new(6, nil), Array.new(6, nil), Array.new(6, nil)] }
       it 'returns false' do
         expect(board.check_if_game_won?(cells_array, 0, 2)).to eq(false)
       end
@@ -374,7 +374,7 @@ describe Board do
 
   describe '#check_if_game_drawn?' do
     context 'the board is not full' do
-      let(:cells_array) { [['Red', 'Red', 'Red', 'Yellow', 'Red', 'Yellow'], ['Yellow', 'Yellow', 'Yellow', 'empty', 'empty', 'empty'], Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty'), Array.new(6, 'empty')] }
+      let(:cells_array) { [['Red', 'Red', 'Red', 'Yellow', 'Red', 'Yellow'], ['Yellow', 'Yellow', 'Yellow', nil, nil, nil], Array.new(6, nil), Array.new(6, nil), Array.new(6, nil), Array.new(6, nil), Array.new(6, nil)] }
       it 'returns false' do
         expect(board.check_if_game_drawn?(cells_array, 0, 5)).to eq(false)
       end
