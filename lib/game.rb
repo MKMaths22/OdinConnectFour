@@ -139,11 +139,9 @@ class Game
       puts draw_message
     end
   end
-
-
-
 end
 
+# Player class takes care of names and disc colours 
 class Player
   
   attr_accessor :name, :disc
@@ -162,36 +160,39 @@ class Player
   end
 end
 
+# Board class keeps score of where the discs are and game ending conditions
 class Board
   
   attr_accessor :cells_array
   
   def initialize
-    @cells_array = Array.new(7) { Array.new(6, nil) }
+    @cells_array = Array.new(7) { Array.new(6) }
   end
 
   def try_adding_tile(column, disc)
     # The column is inputted as a STRING numbered from 1 to 7, which will have to be reinterpreted 
     actual_column = column.to_i - 1
-    return 'full' unless cells_array[actual_column][5] == nil
+    return 'full' if cells_array[actual_column][5]
 
     cell_to_use = cells_array[actual_column].index(nil)
     cells_array[actual_column][cell_to_use] = disc
     return 'game_won' if check_if_game_won?(cells_array, actual_column, cell_to_use)
 
-    return 'game_drawn' if check_if_game_drawn?(cells_array, actual_column, cell_to_use)
+    'game_drawn' if check_if_game_drawn?(cells_array, actual_column, cell_to_use)
 
   end
 
   def top_half(char)
     seven_spaces = '       '
     return seven_spaces.colorize(:background => :white) unless char
+    
     char == 'R' ? seven_spaces.colorize(:background => :red) : seven_spaces.colorize(:background => :light_yellow)
   end
 
   def low_half(char)
     seven_scores = '_______'
     return seven_scores.colorize(:color => :black, :background => :white) unless char
+    
     char == 'R' ? seven_scores.colorize(:color => :black, :background => :red) : seven_scores.colorize(:color => :black, :background => :light_yellow)
   end
   
@@ -252,6 +253,5 @@ class Board
 
     false
   end
-
 end
 

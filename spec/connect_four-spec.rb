@@ -283,8 +283,8 @@ describe Board do
 
   describe '#try_adding_tile' do
     context 'the column has space' do
-      let(:current_cells_array) { [['R', 'R', 'Y', 'R', nil, nil],['Y', 'Y', 'R', 'Y', nil, nil], Array.new(6, nil), Array.new(6, nil), Array.new(6, nil), Array.new(6, nil), Array.new(6, nil)] }
-      let(:result_array) { [['R', 'R', 'Y', 'R', 'R', nil], ['Y', 'Y', 'R', 'Y', nil, nil], Array.new(6, nil), Array.new(6, nil), Array.new(6, nil), Array.new(6, nil), Array.new(6, nil)] }
+      let(:current_cells_array) { [['R', 'R', 'Y', 'R', nil, nil],['Y', 'Y', 'R', 'Y', nil, nil], Array.new(6), Array.new(6), Array.new(6), Array.new(6), Array.new(6)] }
+      let(:result_array) { [['R', 'R', 'Y', 'R', 'R', nil], ['Y', 'Y', 'R', 'Y', nil, nil], Array.new(6), Array.new(6), Array.new(6), Array.new(6), Array.new(6)] }
       before do 
         allow(board).to receive(:cells_array).and_return(current_cells_array)
       end
@@ -296,7 +296,7 @@ describe Board do
     end
 
     context 'the column is full' do
-      let(:current_cells_array) { [['R', 'R', 'Y', 'R', nil, nil],['Y', 'Y', 'R', 'Y', 'Y', 'R'], Array.new(6, nil), Array.new(6, nil), Array.new(6, nil), Array.new(6, nil), Array.new(6, nil)] }
+      let(:current_cells_array) { [['R', 'R', 'Y', 'R', nil, nil],['Y', 'Y', 'R', 'Y', 'Y', 'R'], Array.new(6), Array.new(6), Array.new(6), Array.new(6), Array.new(6)] }
       before do
         allow(board).to receive(:cells_array).and_return(current_cells_array)
       end
@@ -311,8 +311,8 @@ describe Board do
     end
 
     context 'this ends the game in a win' do
-      let(:current_cells_array) { [['R', 'R', 'R', nil, nil, nil], ['Y', 'Y', 'R', 'Y', 'Y', nil], Array.new(6, nil), Array.new(6, nil), Array.new(6, nil), Array.new(6, nil), Array.new(6, nil)] }
-      let(:next_cells_array) { [['R', 'R', 'R', 'R', nil, nil], ['Y', 'Y', 'R', 'Y', 'Y', nil], Array.new(6, nil), Array.new(6, nil), Array.new(6, nil), Array.new(6, nil), Array.new(6, nil)] }
+      let(:current_cells_array) { [['R', 'R', 'R', nil, nil, nil], ['Y', 'Y', 'R', 'Y', 'Y', nil], Array.new(6), Array.new(6), Array.new(6), Array.new(6), Array.new(6)] }
+      let(:next_cells_array) { [['R', 'R', 'R', 'R', nil, nil], ['Y', 'Y', 'R', 'Y', 'Y', nil], Array.new(6), Array.new(6), Array.new(6), Array.new(6), Array.new(6)] }
       before do
         allow(board).to receive(:cells_array).and_return(current_cells_array)
       end
@@ -350,14 +350,14 @@ describe Board do
 
   describe '#check_if_game_won?' do
     context 'a column of 4 is completed' do
-      let(:cells_array) { [['R', 'R', 'R', 'R', nil, nil], ['Y', 'Y', 'Y', nil, nil, nil], Array.new(6, nil), Array.new(6, nil), Array.new(6, nil), Array.new(6, nil), Array.new(6, nil)] }
+      let(:cells_array) { [['R', 'R', 'R', 'R', nil, nil], ['Y', 'Y', 'Y', nil, nil, nil], Array.new(6), Array.new(6), Array.new(6), Array.new(6), Array.new(6)] }
       it 'returns true' do
         expect(board.check_if_game_won?(cells_array, 0, 3)).to eq(true)
       end
     end
 
     context 'a row of 4 is completed' do
-      let(:cells_array) { [['R', 'Y', 'Y', 'R', nil, nil], ['Y', 'Y', 'Y', nil, nil, nil], ['R', 'R', 'Y', 'Y', nil, nil], ['Y', 'R', 'Y', nil, nil, nil], Array.new(6, nil), Array.new(6, nil), Array.new(6, nil)] }
+      let(:cells_array) { [['R', 'Y', 'Y', 'R', nil, nil], ['Y', 'Y', 'Y', nil, nil, nil], ['R', 'R', 'Y', 'Y', nil, nil], ['Y', 'R', 'Y', nil, nil, nil], Array.new(6), Array.new(6), Array.new(6)] }
       it 'returns true' do
         expect(board.check_if_game_won?(cells_array, 1, 2)).to eq(true)
       end
@@ -378,7 +378,7 @@ describe Board do
     end
 
     context 'no column, row, or diagonal is completed' do
-      let(:cells_array) { [['R', 'R', 'R', nil, nil, nil], ['Y', 'Y', 'Y', nil, nil, nil], Array.new(6, nil), Array.new(6, nil), Array.new(6, nil), Array.new(6, nil), Array.new(6, nil)] }
+      let(:cells_array) { [['R', 'R', 'R', nil, nil, nil], ['Y', 'Y', 'Y', nil, nil, nil], Array.new(6), Array.new(6), Array.new(6), Array.new(6), Array.new(6)] }
       it 'returns false' do
         expect(board.check_if_game_won?(cells_array, 0, 2)).to eq(false)
       end
@@ -387,7 +387,7 @@ describe Board do
 
   describe '#check_if_game_drawn?' do
     context 'the board is not full' do
-      let(:cells_array) { [['R', 'R', 'R', 'Y', 'R', 'Y'], ['Y', 'Y', 'Y', nil, nil, nil], Array.new(6, nil), Array.new(6, nil), Array.new(6, nil), Array.new(6, nil), Array.new(6, nil)] }
+      let(:cells_array) { [['R', 'R', 'R', 'Y', 'R', 'Y'], ['Y', 'Y', 'Y', nil, nil, nil], Array.new(6), Array.new(6), Array.new(6), Array.new(6), Array.new(6)] }
       it 'returns false' do
         expect(board.check_if_game_drawn?(cells_array, 0, 5)).to eq(false)
       end
