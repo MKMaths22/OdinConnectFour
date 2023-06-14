@@ -169,6 +169,10 @@ class Board
     @cells_array = Array.new(7) { Array.new(6) }
   end
 
+  def cells_array
+    @cells_array
+  end
+
   def try_adding_tile(column, disc)
     # The column is inputted as a STRING numbered from 1 to 7, which will have to be reinterpreted 
     actual_column = column.to_i - 1
