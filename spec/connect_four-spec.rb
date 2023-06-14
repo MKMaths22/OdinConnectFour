@@ -32,13 +32,16 @@ describe Game do
 
   describe "#toggle_player" do
     context 'player_one has had a turn, so player_two should be next' do
+        let(:player_one) { double('player') }
+        let(:player_two) { double('player') }
+      before do
+        allow(game).to receive(:player_one).and_return(player_one)
+        allow(game).to receive(:player_two).and_return(player_two)
+      end
       it 'changes the value of current_player' do
-        current_player = game.instance_variable_get(:@current_player)
-        peter = game.instance_variable_get(:@player_one)
-        current_player = peter
-        chris = game.instance_variable_get(:@player_two)
+        allow(game).to receive(:current_player).and_return(player_one)
         game.toggle_player
-        expect(game.instance_variable_get(:@current_player)).to eq(chris)
+        expect(game.instance_variable_get(:@current_player)).to eq(player_two)
       end
     end
   end
