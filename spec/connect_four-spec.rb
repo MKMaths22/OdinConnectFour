@@ -279,16 +279,16 @@ describe Board do
 
   describe '#try_adding_tile' do
     context 'the column has space' do
+      let(:current_cells_array) { [['R', 'R', 'Y', 'R', nil, nil],['Y', 'Y', 'R', 'Y', nil, nil], Array.new(6), Array.new(6), Array.new(6), Array.new(6), Array.new(6)] }
+      let(:result_array) { [['R', 'R', 'Y', 'R', 'R', nil], ['Y', 'Y', 'R', 'Y', nil, nil], Array.new(6), Array.new(6), Array.new(6), Array.new(6), Array.new(6)] }
       before do 
-        current_cells_array = [['R', 'R', 'Y', 'R', nil, nil],['Y', 'Y', 'R', 'Y', nil, nil], Array.new(6), Array.new(6), Array.new(6), Array.new(6), Array.new(6)]
         allow(board).to receive(:cells_array).and_return(current_cells_array)
       end
         it 'adds a red tile to the first column' do
-          result_array = [['R', 'R', 'Y', 'R', 'R', nil], ['Y', 'Y', 'R', 'Y', nil, nil], Array.new(6), Array.new(6), Array.new(6), Array.new(6), Array.new(6)]
           allow(board).to receive(:check_if_game_won?).with(result_array, 0, 4).and_return(false)
           allow(board).to receive(:check_if_game_drawn?).with(result_array, 0, 4).and_return(false)
-          expect(board.instance_variable_get(:@cells_array)).to eq(result_array)
           board.try_adding_tile('1', 'R')
+          expect(board.cells_array).to eq(current_cells_array)
         end
     end
 
