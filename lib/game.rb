@@ -215,8 +215,19 @@ class Board
 
   def check_if_game_won?(array, column, row)
     disc = array[column][row]
-    return true if array.dig(column, row - 1) == disc && array.dig(column, row - 2) == disc && array.dig(column, row - 3) == disc
+    return true if is_vertical_connect_four?(array, column, row, disc)
+    return true if is_horizontal_connect_four?(array, column, row, disc)
+    return true if is_north_east_connect_four?(array, column, row, disc)
+    return true if is_north_west_connect_four?(array, column, row, disc)
+    false
+  end
     
+  def is_vertical_connect_four?(array, column, row, disc)  
+    return true if array.dig(column, row - 1) == disc && array.dig(column, row - 2) == disc && array.dig(column, row - 3) == disc
+    false
+  end
+    
+  def is_horizontal_connect_four?(array, column, row, disc) 
     for i in [0, 1, 2, 3] do
       four_in_a_row = true
       for j in [i, i + 1, i + 2, i + 3] do
@@ -224,7 +235,10 @@ class Board
       end
       return true if four_in_a_row
     end
+    false
+  end
     
+  def is_north_east_connect_four?(array, column, row, disc)
     diff = column - row
     for i in [0, 1, 2, 3] do
       four_in_a_north_east_diagonal = true
@@ -233,7 +247,10 @@ class Board
       end
       return true if four_in_a_north_east_diagonal
     end
+    false
+  end
 
+  def is_north_west_connect_four?(array, column, row, disc) 
     sum = column + row
     for i in [0, 1, 2, 3] do
       four_in_a_north_west_diagonal = true
@@ -242,8 +259,7 @@ class Board
       end
       return true if four_in_a_north_west_diagonal
     end
-    
-    return false
+    false
   end 
 
   def check_if_game_drawn?(array, column, row)

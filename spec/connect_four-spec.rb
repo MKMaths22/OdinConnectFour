@@ -342,40 +342,38 @@ describe Board do
     end
   end
 
+  describe '#is_vertical_connect_four?' do
+    let(:cells_array) { [['R', 'R', 'R', 'R', nil, nil], ['Y', 'Y', 'Y', nil, nil, nil], Array.new(6), Array.new(6), Array.new(6), Array.new(6), Array.new(6)] }
+    it 'returns true' do
+      expect(board.is_vertical_connect_four?(cells_array, 0, 3, 'R')).to eq(true)
+    end
+  end
+
+  describe '#is_horizontal_connect_four?' do
+    let(:cells_array) { [['R', 'Y', 'Y', 'R', nil, nil], ['Y', 'Y', 'Y', nil, nil, nil], ['R', 'R', 'Y', 'Y', nil, nil], ['Y', 'R', 'Y', nil, nil, nil], Array.new(6), Array.new(6), Array.new(6)] }
+    it 'returns true' do
+      expect(board.is_horizontal_connect_four?(cells_array, 1, 2, 'Y')).to eq(true)
+    end
+  end
+
+  describe '#is_north_east_connect_four?' do
+    let(:cells_array) { [['Y', 'Y', 'R', nil, nil, nil], ['Y', 'R', nil, nil, nil, nil], ['R', 'R', 'R', nil, nil, nil], ['Y', 'Y', 'Y', 'R', nil, nil], ['Y', 'R', 'Y', 'R', 'R', nil], ['R', 'Y', 'Y', 'R', 'Y', nil], ['R', 'Y', 'R', 'Y', 'R', nil]] }
+    it 'returns true' do
+      expect(board.is_north_east_connect_four?(cells_array, 3, 3, 'R')).to eq(true)
+    end
+  end
+
+  describe '#is_north_west_connect_four?' do
+    let(:cells_array) { [['R', 'Y', 'R', 'Y', 'R', nil], ['R', 'Y', 'Y', 'R', 'Y', nil], ['Y', 'R', 'Y', 'R', 'R', nil], ['Y', 'Y', 'Y', 'R', nil, nil], ['R', 'R', 'R', nil, nil, nil], ['Y', 'R', nil, nil, nil, nil], ['Y', 'Y', 'Y', nil, nil, nil]] }
+    it 'returns true' do
+      expect(board.is_north_west_connect_four?(cells_array, 3, 3, 'R')).to eq(true)
+    end
+  end
+
   describe '#check_if_game_won?' do
-    context 'a column of 4 is completed' do
-      let(:cells_array) { [['R', 'R', 'R', 'R', nil, nil], ['Y', 'Y', 'Y', nil, nil, nil], Array.new(6), Array.new(6), Array.new(6), Array.new(6), Array.new(6)] }
-      it 'returns true' do
-        expect(board.check_if_game_won?(cells_array, 0, 3)).to eq(true)
-      end
-    end
-
-    context 'a row of 4 is completed' do
-      let(:cells_array) { [['R', 'Y', 'Y', 'R', nil, nil], ['Y', 'Y', 'Y', nil, nil, nil], ['R', 'R', 'Y', 'Y', nil, nil], ['Y', 'R', 'Y', nil, nil, nil], Array.new(6), Array.new(6), Array.new(6)] }
-      it 'returns true' do
-        expect(board.check_if_game_won?(cells_array, 1, 2)).to eq(true)
-      end
-    end
-
-    context 'a north-east diagonal of 4 is completed' do
-      let(:cells_array) { [['Y', 'Y', 'R', nil, nil, nil], ['Y', 'R', nil, nil, nil, nil], ['R', 'R', 'R', nil, nil, nil], ['Y', 'Y', 'Y', 'R', nil, nil], ['Y', 'R', 'Y', 'R', 'R', nil], ['R', 'Y', 'Y', 'R', 'Y', nil], ['R', 'Y', 'R', 'Y', 'R', nil]] }
-      it 'returns true' do
-        expect(board.check_if_game_won?(cells_array, 3, 3)).to eq(true)
-      end
-    end
-
-    context 'a north-west diagonal of 4 is completed' do
-      let(:cells_array) { [['R', 'Y', 'R', 'Y', 'R', nil], ['R', 'Y', 'Y', 'R', 'Y', nil], ['Y', 'R', 'Y', 'R', 'R', nil], ['Y', 'Y', 'Y', 'R', nil, nil], ['R', 'R', 'R', nil, nil, nil], ['Y', 'R', nil, nil, nil, nil], ['Y', 'Y', 'Y', nil, nil, nil]] }
-      it 'returns true' do
-        expect(board.check_if_game_won?(cells_array, 3, 3)).to eq(true)
-      end
-    end
-
-    context 'no column, row, or diagonal is completed' do
-      let(:cells_array) { [['R', 'R', 'R', nil, nil, nil], ['Y', 'Y', 'Y', nil, nil, nil], Array.new(6), Array.new(6), Array.new(6), Array.new(6), Array.new(6)] }
-      it 'returns false' do
-        expect(board.check_if_game_won?(cells_array, 0, 2)).to eq(false)
-      end
+    let(:cells_array) { [['R', 'R', 'R', nil, nil, nil], ['Y', 'Y', 'Y', nil, nil, nil], Array.new(6), Array.new(6), Array.new(6), Array.new(6), Array.new(6)] }
+    it 'returns false' do
+      expect(board.check_if_game_won?(cells_array, 0, 2)).to eq(false)
     end
   end
 
