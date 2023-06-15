@@ -3,4 +3,5 @@
 
 require './game.rb'
 game = Game.new
+puts "Welcome to Connect Four!"
 game.play_game

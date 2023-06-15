@@ -25,7 +25,6 @@ class Game
   end
 
   def play_game
-    puts "Welcome to Connect Four!"
     sleep(2)
     create_players
     board = create_board
