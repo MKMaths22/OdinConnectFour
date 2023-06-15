@@ -1,5 +1,6 @@
 # frozen-string-literal: true
 require 'colorize'
+require 'pry-byebug'
 
 # The Game class takes care of initializing other classes and whose turn it is next
 class Game
@@ -173,7 +174,7 @@ class Board
     # The column is inputted as a STRING numbered from 1 to 7, which will have to be reinterpreted 
     actual_column = column.to_i - 1
     return 'full' if cells_array[actual_column][5]
-
+    
     cell_to_use = cells_array[actual_column].index(nil)
     cells_array[actual_column][cell_to_use] = disc
     return 'game_won' if check_if_game_won?(cells_array, actual_column, cell_to_use)

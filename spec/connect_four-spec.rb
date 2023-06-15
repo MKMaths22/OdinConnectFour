@@ -1,5 +1,6 @@
 # frozen-string-literal: true
 require '../lib/game'
+require 'pry-byebug'
 
 describe Game do
   subject(:game) { described_class.new }
