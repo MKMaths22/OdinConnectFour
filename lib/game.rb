@@ -166,8 +166,8 @@ class Board
   
   attr_accessor :cells_array
   
-  def initialize
-    @cells_array = Array.new(7) { Array.new(6) }
+  def initialize(cells_array = Array.new(7) { Array.new(6) } )
+    @cells_array = cells_array
   end
 
   def try_adding_tile(column, disc)
