@@ -262,6 +262,105 @@ describe Game do
       end
     end
   end
+
+  describe '#ask_if_same_players' do
+    context 'Peter just played Chris in that order' do
+      subject(:game) { described_class.new(peter, chris, peter) }
+      let(:peter) { instance_double(Player) }
+      let(:chris) { instance_double(Player) }
+      option_message = 'Do you both wish to play another game but with Chris going first?'
+      before do
+        allow(peter).to receive(:name).and_return('Peter')
+        allow(chris).to receive(:name).and_return('Chris')
+      end
+      it 'offers the option to play again with order reversed' do
+        expect(game).to receive(:puts).with(option_message)
+        game.ask_if_same_players
+      end
+      context 'the players agree to play again' do
+        let(:new_game) { described_class.new(chris, peter, chris) }
+        before do
+          allow(game).to receive(:gets).and_return('y')
+        end
+        it 'sends a message to the Game class' do
+          allow(game).to receive(:puts).with(option_message)
+          allow(new_game).to receive(:play_game)
+          expect(described_class).to receive(:new).with(chris, peter, chris).and_return(new_game)
+          game.ask_if_same_players
+        end
+        it 'plays the new game' do
+          allow(game).to receive(:puts).with(option_message)
+          allow(Game).to receive(:new).with(chris, peter, chris).and_return(new_game)
+          expect(new_game).to receive(:play_game)
+          game.ask_if_same_players
+        end
+        it 'returns true' do
+          allow(game).to receive(:puts).with(option_message)
+          allow(Game).to receive(:new).with(chris, peter, chris).and_return(new_game)
+          allow(new_game).to receive(:play_game)
+          expect(game.ask_if_same_players).to be true
+        end
+      end
+      context 'the players do not agree to play again' do
+        before do
+          allow(game).to receive(:gets).and_return('')
+        end
+        it 'does not send a message to the Game class' do
+          expect(Game).to_not receive(:new).with(chris, peter, chris)
+          game.ask_if_same_players
+        end
+      end
+    end
+  end
+
+  describe '#ask_if_general_new_game' do
+    context 'Peter and Chris just played' do
+      subject(:game) { described_class.new(peter, chris, peter) }
+      let(:peter) { instance_double(Player) }
+      let(:chris) { instance_double(Player) }
+      option_message = 'Press Y to start a general new game, anything else to quit.'
+      quit_message = "Thanks for playing Connect Four! Goodbye."
+      before do 
+        allow(peter).to receive(:name).and_return('Peter')
+        allow(chris).to receive(:name).and_return('Chris')
+      end
+      it 'asks if a general new game is wanted' do
+        allow(game).to receive(:puts).with(quit_message)
+        expect(game).to receive(:puts).with(option_message)
+        game.ask_if_general_new_game
+      end
+      
+      context 'a general new game is requested' do
+        let(:general_new_game) { described_class.new }
+        before do
+          allow(game).to receive(:gets).and_return('y')
+        end
+        it 'sends a message to the Game class' do
+          allow(game).to receive(:puts).with(option_message)
+          allow(general_new_game).to receive(:play_game)
+          expect(described_class).to receive(:new).and_return(general_new_game)
+          game.ask_if_general_new_game
+        end
+        it 'plays the new game' do
+          allow(game). to receive(:puts).with(option_message)
+          allow(Game).to receive(:new).and_return(general_new_game)
+          expect(general_new_game).to receive(:play_game)
+          game.ask_if_general_new_game
+        end
+      end
+      context 'the game is quit' do
+        before do
+          allow(game).to receive(:gets).and_return('')
+        end
+        it 'does not send a message to the Game class' do
+          allow(game).to receive(:puts).with(option_message)
+          allow(game).to receive(:puts).with(quit_message)
+          expect(Game).to_not receive(:new)
+          game.ask_if_general_new_game
+        end
+      end
+    end
+  end
 end
 
 describe Board do

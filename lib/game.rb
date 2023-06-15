@@ -140,6 +140,29 @@ class Game
       puts draw_message
     end
   end
+
+  def ask_if_same_players
+    puts "Do you both wish to play another game but with #{player_two.name} going first?"
+    choice = gets.strip.upcase
+    if choice == 'Y'
+      new_game = Game.new(player_two, player_one, player_two)
+      new_game.play_game
+      return true
+      
+    end
+  end
+
+  def ask_if_general_new_game
+    puts "Press Y to start a general new game, anything else to quit."
+    choice = gets.strip.upcase
+    if choice == 'Y'
+      new_game = Game.new
+      new_game.play_game
+    else 
+      puts "Thanks for playing Connect Four! Goodbye."
+    end
+  end
+
 end
 
 # Player class takes care of names and disc colours 
