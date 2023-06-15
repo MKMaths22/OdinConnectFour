@@ -45,12 +45,9 @@ describe Game do
 
   describe "#ask_second_disc" do
     context 'Second player chooses yellow' do
+      subject(:game) { described_class.new(player_one, player_two, player_one) }
       let(:player_one) { instance_double(Player) }
       let(:player_two) { instance_double(Player) }
-      before do
-        allow(game).to receive(:player_one).and_return(player_one)
-        allow(game).to receive(:player_two).and_return(player_two)
-      end
             
       it 'sends the second player message to set disc to yellow' do
         allow(game).to receive(:disc_input).and_return('Y')
@@ -159,6 +156,7 @@ describe Game do
 
   describe '#announce_result' do
     context 'Peter has won the game versus Chris' do
+      subject(:game) { described_class.new(peter, chris, peter) }
       let(:chris) { instance_double(Player) }
       let(:peter) { instance_double(Player) }
        before do
@@ -166,9 +164,6 @@ describe Game do
         allow(chris).to receive(:name).and_return('Chris')
         allow(game).to receive(:game_won?).and_return(true)
         allow(game).to receive(:game_drawn?).and_return(false)
-        allow(game).to receive(:current_player).and_return(peter)
-        allow(game).to receive(:player_one).and_return(peter)
-        allow(game).to receive(:player_two).and_return(chris)
       end
       it 'congratulates Peter and commisserates Chris' do
         win_message = "That's Connect Four! Peter wins, well done!"
@@ -180,6 +175,7 @@ describe Game do
     end
 
     context 'the game is a draw between Peter and Chris' do
+      subject(:game) { described_class.new(peter, chris, chris) }
       let(:chris) { instance_double(Player) }
       let(:peter) { instance_double(Player) }
       before do
@@ -187,8 +183,6 @@ describe Game do
         allow(chris).to receive(:name).and_return('Chris')
         allow(game).to receive(:game_drawn?).and_return(true)
         allow(game).to receive(:game_won?).and_return(false)
-        allow(game).to receive(:player_one).and_return(peter)
-        allow(game).to receive(:player_two).and_return(chris)
       end
       it 'announces a draw, mentioning both players' do
         draw_message = "The game ends in a draw, with no Connect Four. Well played, Peter and Chris!"
@@ -217,7 +211,6 @@ describe Game do
       it 'sends two messages to the board' do
         allow(game).to receive(:valid_input).with(['1', '2', '3', '4', '5', '6', '7']).and_return(full_column, possible_column)
         allow(board).to receive(:try_adding_tile).with('4', 'Y').and_return('full')
-        allow(board).to receive(:try_adding_tile).with('5', 'Y').and_return(nil)
         allow(game).to receive(:puts).with(column_error)
         expect(board).to receive(:try_adding_tile).with('5', 'Y')
         game.player_places_disc(board, 'Y')
