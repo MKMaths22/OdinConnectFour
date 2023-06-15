@@ -8,10 +8,10 @@ class Game
   attr_accessor :player_one, :player_two, :current_player
   attr_writer :game_won, :game_drawn
 
-  def initialize
-    @player_one = nil
-    @player_two = nil
-    @current_player = nil
+  def initialize(first_player = nil, second_player = nil, current_player = nil)
+    @player_one = first_player
+    @player_two = second_player
+    @current_player = current_player
     @game_won = false
     @game_drawn = false
   end

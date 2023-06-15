@@ -26,23 +26,19 @@ describe Game do
 
       it "sets the current player to equal player one" do
         game.create_players
-        expect(game.instance_variable_get(:@current_player)).to equal(game.instance_variable_get(:@player_one))
+        expect(game.current_player).to equal(game.player_one)
       end
     end
   end
 
   describe "#toggle_player" do
     context 'player_one has had a turn, so player_two should be next' do
-        let(:player_one) { double('player') }
-        let(:player_two) { double('player') }
-      before do
-        allow(game).to receive(:player_one).and_return(player_one)
-        allow(game).to receive(:player_two).and_return(player_two)
-      end
+        subject(:game) { described_class.new(player_one, player_two, player_one) }
+        let(:player_one) { instance_double(Player) }
+        let(:player_two) { instance_double(Player) }
       it 'changes the value of current_player' do
-        allow(game).to receive(:current_player).and_return(player_one)
         game.toggle_player
-        expect(game.instance_variable_get(:@current_player)).to eq(player_two)
+        expect(game.instance_variable_get(:@current_player)).to equal(player_two)
       end
     end
   end
