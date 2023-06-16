@@ -21,7 +21,7 @@ class Board
     cells_array[actual_column][cell_to_use] = disc
     return 'game_won' if check_if_game_won?(cells_array, actual_column, cell_to_use)
 
-    'game_drawn' if check_if_game_drawn?(cells_array, actual_column, cell_to_use)
+    'game_drawn' if check_if_game_drawn?(cells_array, cell_to_use)
 
   end
 
@@ -59,7 +59,7 @@ class Board
   def check_if_game_won?(array, column, row)
     disc = array[column][row]
     return true if vertical_connect_four?(array, column, row, disc)
-    return true if horizontal_connect_four?(array, column, row, disc)
+    return true if horizontal_connect_four?(array, row, disc)
     return true if north_east_connect_four?(array, column, row, disc)
     return true if north_west_connect_four?(array, column, row, disc)
     false
@@ -70,7 +70,7 @@ class Board
     false
   end
 
-  def horizontal_connect_four?(array, column, row, disc)
+  def horizontal_connect_four?(array, row, disc)
     for i in [0, 1, 2, 3] do
       four_in_a_row = true
       for j in [i, i + 1, i + 2, i + 3] do
@@ -105,7 +105,7 @@ class Board
     false
   end
 
-  def check_if_game_drawn?(array, column, row)
+  def check_if_game_drawn?(array, row)
     return false unless row == 5
 
     return true unless [array.dig(0, 5), array.dig(1, 5), array.dig(2, 5), array.dig(3, 5), array.dig(4, 5), array.dig(5, 5), array.dig(6, 5)].include?(nil)

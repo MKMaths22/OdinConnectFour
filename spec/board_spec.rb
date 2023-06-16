@@ -13,7 +13,7 @@ describe Board do
       let(:result_array) { [['R', 'R', 'Y', 'R', 'R', nil], ['Y', 'Y', 'R', 'Y', nil, nil], Array.new(6), Array.new(6), Array.new(6), Array.new(6), Array.new(6)] }
         it 'adds a red tile to the first column' do
           allow(board).to receive(:check_if_game_won?).with(result_array, 0, 4).and_return(false)
-          allow(board).to receive(:check_if_game_drawn?).with(result_array, 0, 4).and_return(false)
+          allow(board).to receive(:check_if_game_drawn?).with(result_array, 4).and_return(false)
           board.try_adding_tile('1', 'R')
           expect(board.cells_array).to eq(result_array)
         end
@@ -54,7 +54,7 @@ describe Board do
       let(:first_cells_array) { [['Y', 'R', 'Y', 'Y', 'R', 'Y'], ['R', 'Y', 'R', 'R', 'Y', 'R'], ['Y', 'R', 'Y', 'Y', 'R', 'Y'], ['R', 'Y', 'R', 'R', 'Y', 'R'], ['Y', 'R', 'Y', 'Y', 'R', 'Y'], ['R', 'Y', 'R', 'R', 'Y', 'R'], ['Y', 'R', 'Y', 'Y', 'R', nil]] }
       let(:next_cells_array) { [['Y', 'R', 'Y', 'Y', 'R', 'Y'], ['R', 'Y', 'R', 'R', 'Y', 'R'], ['Y', 'R', 'Y', 'Y', 'R', 'Y'], ['R', 'Y', 'R', 'R', 'Y', 'R'], ['Y', 'R', 'Y', 'Y', 'R', 'Y'], ['R', 'Y', 'R', 'R', 'Y', 'R'], ['Y', 'R', 'Y', 'Y', 'R', 'Y']] }
       it 'declares the game to be a draw' do
-        allow(board).to receive(:check_if_game_drawn?).with(next_cells_array, 6, 5).and_return(true)
+        allow(board).to receive(:check_if_game_drawn?).with(next_cells_array, 5).and_return(true)
         expect(board.try_adding_tile('7', 'Y')).to eq('game_drawn')
       end
     end
@@ -70,7 +70,7 @@ describe Board do
   describe '#horizontal_connect_four?' do
     let(:first_cells_array) { [['R', 'Y', 'Y', 'R', nil, nil], ['Y', 'Y', 'Y', nil, nil, nil], ['R', 'R', 'Y', 'Y', nil, nil], ['Y', 'R', 'Y', nil, nil, nil], Array.new(6), Array.new(6), Array.new(6)] }
     it 'returns true' do
-      expect(board.horizontal_connect_four?(first_cells_array, 1, 2, 'Y')).to eq(true)
+      expect(board.horizontal_connect_four?(first_cells_array, 2, 'Y')).to eq(true)
     end
   end
 
@@ -99,14 +99,14 @@ describe Board do
     context 'the board is not full' do
       let(:first_cells_array) { [['R', 'R', 'R', 'Y', 'R', 'Y'], ['Y', 'Y', 'Y', nil, nil, nil], Array.new(6), Array.new(6), Array.new(6), Array.new(6), Array.new(6)] }
       it 'returns false' do
-        expect(board.check_if_game_drawn?(first_cells_array, 0, 5)).to eq(false)
+        expect(board.check_if_game_drawn?(first_cells_array, 5)).to eq(false)
       end
     end
 
     context 'the board is full' do
       let(:first_cells_array) { [['Y', 'R', 'Y', 'Y', 'R', 'Y'], ['R', 'Y', 'R', 'R', 'Y', 'R'], ['Y', 'R', 'Y', 'Y', 'R', 'Y'], ['R', 'Y', 'R', 'R', 'Y', 'R'], ['Y', 'R', 'Y', 'Y', 'R', 'Y'], ['R', 'Y', 'R', 'R', 'Y', 'R'], ['Y', 'R', 'Y', 'Y', 'R', 'Y']] }
       it 'returns true' do
-        expect(board.check_if_game_drawn?(first_cells_array, 1, 5)).to eq(true)
+        expect(board.check_if_game_drawn?(first_cells_array, 5)).to eq(true)
       end
     end
   end
