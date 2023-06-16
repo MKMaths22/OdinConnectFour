@@ -68,6 +68,7 @@ class Game
 
   def ask_second_disc
     if disc_input == 'Y'
+      # second_player has chosen yellow, so set disc colours for both players
       player_one.set_red
       player_two.set_yellow
     else
