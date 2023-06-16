@@ -60,31 +60,31 @@ describe Board do
     end
   end
 
-  describe '#is_vertical_connect_four?' do
+  describe '#vertical_connect_four?' do
     let(:first_cells_array) { [['R', 'R', 'R', 'R', nil, nil], ['Y', 'Y', 'Y', nil, nil, nil], Array.new(6), Array.new(6), Array.new(6), Array.new(6), Array.new(6)] }
     it 'returns true' do
-      expect(board.is_vertical_connect_four?(first_cells_array, 0, 3, 'R')).to eq(true)
+      expect(board.vertical_connect_four?(first_cells_array, 0, 3, 'R')).to eq(true)
     end
   end
 
-  describe '#is_horizontal_connect_four?' do
+  describe '#horizontal_connect_four?' do
     let(:first_cells_array) { [['R', 'Y', 'Y', 'R', nil, nil], ['Y', 'Y', 'Y', nil, nil, nil], ['R', 'R', 'Y', 'Y', nil, nil], ['Y', 'R', 'Y', nil, nil, nil], Array.new(6), Array.new(6), Array.new(6)] }
     it 'returns true' do
-      expect(board.is_horizontal_connect_four?(first_cells_array, 1, 2, 'Y')).to eq(true)
+      expect(board.horizontal_connect_four?(first_cells_array, 1, 2, 'Y')).to eq(true)
     end
   end
 
-  describe '#is_north_east_connect_four?' do
+  describe '#north_east_connect_four?' do
     let(:first_cells_array) { [['Y', 'Y', 'R', nil, nil, nil], ['Y', 'R', nil, nil, nil, nil], ['R', 'R', 'R', nil, nil, nil], ['Y', 'Y', 'Y', 'R', nil, nil], ['Y', 'R', 'Y', 'R', 'R', nil], ['R', 'Y', 'Y', 'R', 'Y', nil], ['R', 'Y', 'R', 'Y', 'R', nil]] }
     it 'returns true' do
-      expect(board.is_north_east_connect_four?(first_cells_array, 3, 3, 'R')).to eq(true)
+      expect(board.north_east_connect_four?(first_cells_array, 3, 3, 'R')).to eq(true)
     end
   end
 
-  describe '#is_north_west_connect_four?' do
+  describe '#north_west_connect_four?' do
     let(:first_cells_array) { [['R', 'Y', 'R', 'Y', 'R', nil], ['R', 'Y', 'Y', 'R', 'Y', nil], ['Y', 'R', 'Y', 'R', 'R', nil], ['Y', 'Y', 'Y', 'R', nil, nil], ['R', 'R', 'R', nil, nil, nil], ['Y', 'R', nil, nil, nil, nil], ['Y', 'Y', 'Y', nil, nil, nil]] }
     it 'returns true' do
-      expect(board.is_north_west_connect_four?(first_cells_array, 3, 3, 'R')).to eq(true)
+      expect(board.north_west_connect_four?(first_cells_array, 3, 3, 'R')).to eq(true)
     end
   end
 
