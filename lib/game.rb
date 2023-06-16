@@ -7,7 +7,6 @@ require_relative './player'
 
 # The Game class takes care of initializing other classes and whose turn it is next
 class Game
-
   attr_accessor :player_one, :player_two, :current_player
   attr_writer :game_won, :game_drawn
 
@@ -81,7 +80,7 @@ class Game
     puts "As Player Two, #{player_two.name}, you get to choose colours."
     sleep(2)
     puts 'Type "R" for red discs, or "Y" for yellow.'
-    valid_input(['R', 'Y'])
+    valid_input(%w[R Y])
   end
 
   def valid_input(array)
@@ -96,7 +95,7 @@ class Game
     this_array = array.clone
     # prevents the array 'array' from being modified below
     end_of_error = " or #{this_array.pop}."
-    error = 'Invalid input. Please enter ' + this_array.join(', ') + end_of_error
+    error = "Invalid input. Please enter #{this_array.join(', ')}#{end_of_error}"
   end
 
   def toggle_player
@@ -110,7 +109,7 @@ class Game
   def turn_loop(board)
     one_turn(board) until game_won? || game_drawn?
   end
-  
+
   def one_turn(board)
     show_board(board)
     tell_player_to_choose(@current_player)
@@ -128,14 +127,14 @@ class Game
   end
 
   def player_places_disc(board, disc)
-    column_chosen = valid_input(['1', '2', '3', '4', '5', '6', '7'])
+    column_chosen = valid_input(%w[1 2 3 4 5 6 7])
     result = board.try_adding_tile(column_chosen, disc)
     @game_won = true if result == 'game_won'
     @game_drawn = true if result == 'game_drawn'
-    if result == 'full'
-      puts 'That column is full. Please choose another.'
-      player_places_disc(board, disc)
-    end
+    return unless result == 'full'
+
+    puts 'That column is full. Please choose another.'
+    player_places_disc(board, disc)
   end
 
   def announce_result
@@ -147,10 +146,10 @@ class Game
       puts win_message
       puts lose_message
     end
-    if game_drawn?
-      draw_message = "The game ends in a draw, with no Connect Four. Well played, #{player_one.name} and #{player_two.name}!"
-      puts draw_message
-    end
+    return unless game_drawn?
+
+    draw_message = "The game ends in a draw, with no Connect Four. Well played, #{player_one.name} and #{player_two.name}!"
+    puts draw_message
   end
 
   def give_new_game_options
@@ -160,12 +159,11 @@ class Game
   def ask_if_same_players
     puts "Press Y if you both wish to play another game but with #{player_two.name} going first. Type anything else to continue."
     choice = gets.strip.upcase
-    if choice == 'Y'
-      new_game = Game.new(player_two, player_one, player_two)
-      new_game.play_game
-      return true
+    return unless choice == 'Y'
 
-    end
+    new_game = Game.new(player_two, player_one, player_two)
+    new_game.play_game
+    return true
   end
 
   def ask_if_general_new_game
@@ -178,6 +176,4 @@ class Game
       puts 'Thanks for playing Connect Four! Goodbye.'
     end
   end
-
 end
-
