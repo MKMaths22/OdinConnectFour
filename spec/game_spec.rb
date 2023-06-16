@@ -5,38 +5,38 @@ require 'pry-byebug'
 
 describe Game do
   subject(:game) { described_class.new }
-      
-  describe "#ask_first_name" do
-    it "asks the first player their name" do
+
+  describe '#ask_first_name' do
+    it 'asks the first player their name' do
       expect(game).to receive(:puts).with('Player One, please enter your name:')
       game.ask_first_name
     end
   end
-      
-  describe "#create_players" do
+
+  describe '#create_players' do
     context 'When Peter and Chris play' do
-      before do 
+      before do
         allow(game).to receive(:ask_first_name).and_return('Peter')
         allow(game).to receive(:ask_second_name).and_return('Chris')
       end
-      it "sends two messages to the Player class" do
+      it 'sends two messages to the Player class' do
         expect(Player).to receive(:new).with('Peter')
         expect(Player).to receive(:new).with('Chris')
         game.create_players
       end
 
-      it "sets the current player to equal player one" do
+      it 'sets the current player to equal player one' do
         game.create_players
         expect(game.current_player).to equal(game.player_one)
       end
     end
   end
 
-  describe "#toggle_player" do
+  describe '#toggle_player' do
     context 'player_one has had a turn, so player_two should be next' do
-        subject(:game) { described_class.new(player_one, player_two, player_one) }
-        let(:player_one) { instance_double(Player) }
-        let(:player_two) { instance_double(Player) }
+      subject(:game) { described_class.new(player_one, player_two, player_one) }
+      let(:player_one) { instance_double(Player) }
+      let(:player_two) { instance_double(Player) }
       it 'changes the value of current_player' do
         game.toggle_player
         expect(game.instance_variable_get(:@current_player)).to equal(player_two)
@@ -44,12 +44,12 @@ describe Game do
     end
   end
 
-  describe "#ask_second_disc" do
+  describe '#ask_second_disc' do
     context 'Second player chooses yellow' do
       subject(:game) { described_class.new(player_one, player_two, player_one) }
       let(:player_one) { instance_double(Player) }
       let(:player_two) { instance_double(Player) }
-            
+
       it 'sends the second player message to set disc to yellow' do
         allow(game).to receive(:disc_input).and_return('Y')
         allow(player_one).to receive(:set_red)
@@ -68,7 +68,7 @@ describe Game do
 
   describe '#valid_input' do
     context 'when using valid_input for choice of disc colour' do
-      my_array = ['R', 'Y']
+      my_array = %w[R Y]
       specific_error = "Invalid input. Please enter 'R' or 'Y'"
       context 'wrong input once then valid second time' do
         first_input = 'A'
@@ -95,17 +95,17 @@ describe Game do
   describe '#give_colour_name' do
     context 'when input is "R"' do
       it 'outputs "Red"' do
-        expect(game.give_colour_name("R")).to eq("Red")
+        expect(game.give_colour_name('R')).to eq('Red')
       end
     end
 
     context 'when input is "Y"' do
       it 'outputs "Yellow"' do
-        expect(game.give_colour_name("Y")).to eq("Yellow")
+        expect(game.give_colour_name('Y')).to eq('Yellow')
       end
     end
   end
-      
+
   describe '#tell_player_to_choose' do
     context 'it is Peter with the Yellow discs' do
       let(:peter) { instance_double(Player) }
@@ -114,7 +114,7 @@ describe Game do
         allow(peter).to receive(:name).and_return('Peter')
       end
       it 'tells Peter to choose a column for a Yellow disc' do
-        peter_yellow_message = "Peter, please choose an available column numbered from 1 to 7 for a Yellow disc."
+        peter_yellow_message = 'Peter, please choose an available column numbered from 1 to 7 for a Yellow disc.'
         expect(game).to receive(:puts).with(peter_yellow_message)
         game.tell_player_to_choose(peter)
       end
@@ -126,13 +126,13 @@ describe Game do
         allow(chris).to receive(:name).and_return('Chris')
       end
       it 'tells Chris to choose a column for a Red disc' do
-        chris_red_message = "Chris, please choose an available column numbered from 1 to 7 for a Red disc."
+        chris_red_message = 'Chris, please choose an available column numbered from 1 to 7 for a Red disc.'
         expect(game).to receive(:puts).with(chris_red_message)
         game.tell_player_to_choose(chris)
       end
     end
   end
-      
+
   describe '#turn_loop' do
     context 'game ends after just 7 turns' do
       let(:board) { instance_double(Board) }
@@ -160,7 +160,7 @@ describe Game do
       subject(:game) { described_class.new(peter, chris, peter) }
       let(:chris) { instance_double(Player) }
       let(:peter) { instance_double(Player) }
-       before do
+      before do
         allow(peter).to receive(:name).and_return('Peter')
         allow(chris).to receive(:name).and_return('Chris')
         allow(game).to receive(:game_won?).and_return(true)
@@ -168,7 +168,7 @@ describe Game do
       end
       it 'congratulates Peter and commisserates Chris' do
         win_message = "That's Connect Four! Peter wins, well done!"
-        lose_message = "Commiserations, Chris. Better luck next time!"
+        lose_message = 'Commiserations, Chris. Better luck next time!'
         expect(game).to receive(:puts).with(win_message)
         expect(game).to receive(:puts).with(lose_message)
         game.announce_result
@@ -186,19 +186,19 @@ describe Game do
         allow(game).to receive(:game_won?).and_return(false)
       end
       it 'announces a draw, mentioning both players' do
-        draw_message = "The game ends in a draw, with no Connect Four. Well played, Peter and Chris!"
+        draw_message = 'The game ends in a draw, with no Connect Four. Well played, Peter and Chris!'
         expect(game).to receive(:puts).with(draw_message)
         game.announce_result
       end
     end
   end
-      
+
   describe '#player_places_disc' do
     context 'valid column entered first time' do
       valid_input = '5'
       let(:board) { instance_double(Board) }
       it 'sends message to the board' do
-        allow(game).to receive(:valid_input).with(['1', '2', '3', '4', '5', '6', '7']).and_return(valid_input)
+        allow(game).to receive(:valid_input).with(%w[1 2 3 4 5 6 7]).and_return(valid_input)
         expect(board).to receive(:try_adding_tile).with('5', 'Y')
         game.player_places_disc(board, 'Y')
       end
@@ -210,14 +210,15 @@ describe Game do
       column_error = 'That column is full. Please choose another.'
       let(:board) { instance_double(Board) }
       it 'sends two messages to the board' do
-        allow(game).to receive(:valid_input).with(['1', '2', '3', '4', '5', '6', '7']).and_return(full_column, possible_column)
+        allow(game).to receive(:valid_input).with(%w[1 2 3 4 5 6 7]).and_return(full_column,
+                                                                                possible_column)
         allow(board).to receive(:try_adding_tile).with('4', 'Y').and_return('full')
         allow(game).to receive(:puts).with(column_error)
         expect(board).to receive(:try_adding_tile).with('5', 'Y')
         game.player_places_disc(board, 'Y')
       end
-    end  
-      
+    end
+
     context 'possible column entered, which wins the game' do
       possible_column = '5'
       let(:board) { instance_double(Board) }
@@ -225,7 +226,7 @@ describe Game do
         allow(game).to receive(:game_won).and_return(false)
       end
       it 'changes the value of game_won' do
-        allow(game).to receive(:valid_input).with(['1', '2', '3', '4', '5', '6', '7']).and_return(possible_column)
+        allow(game).to receive(:valid_input).with(%w[1 2 3 4 5 6 7]).and_return(possible_column)
         allow(board).to receive(:try_adding_tile).with('5', 'Y').and_return('game_won')
         game.player_places_disc(board, 'Y')
         expect(game).to be_game_won
@@ -239,7 +240,7 @@ describe Game do
         allow(game).to receive(:game_drawn).and_return(false)
       end
       it 'changes the value of game_drawn' do
-        allow(game).to receive(:valid_input).with(['1', '2', '3', '4', '5', '6', '7']).and_return(possible_column)
+        allow(game).to receive(:valid_input).with(%w[1 2 3 4 5 6 7]).and_return(possible_column)
         allow(board).to receive(:try_adding_tile).with('5', 'Y').and_return('game_drawn')
         game.player_places_disc(board, 'Y')
         expect(game).to be_game_drawn
@@ -263,7 +264,7 @@ describe Game do
       end
     end
   end
-  
+
   describe '#ask_if_same_players' do
     context 'Peter just played Chris in that order' do
       subject(:game) { described_class.new(peter, chris, peter) }
@@ -320,8 +321,8 @@ describe Game do
       let(:peter) { instance_double(Player) }
       let(:chris) { instance_double(Player) }
       option_message = 'Press Y to start a general new game, anything else to quit.'
-      quit_message = "Thanks for playing Connect Four! Goodbye."
-      before do 
+      quit_message = 'Thanks for playing Connect Four! Goodbye.'
+      before do
         allow(peter).to receive(:name).and_return('Peter')
         allow(chris).to receive(:name).and_return('Chris')
       end
@@ -330,7 +331,7 @@ describe Game do
         expect(game).to receive(:puts).with(option_message)
         game.ask_if_general_new_game
       end
-      
+
       context 'a general new game is requested' do
         let(:general_new_game) { described_class.new }
         before do
@@ -343,7 +344,7 @@ describe Game do
           game.ask_if_general_new_game
         end
         it 'plays the new game' do
-          allow(game). to receive(:puts).with(option_message)
+          allow(game).to receive(:puts).with(option_message)
           allow(Game).to receive(:new).and_return(general_new_game)
           expect(general_new_game).to receive(:play_game)
           game.ask_if_general_new_game
