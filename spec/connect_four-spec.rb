@@ -268,7 +268,7 @@ describe Game do
       subject(:game) { described_class.new(peter, chris, peter) }
       let(:peter) { instance_double(Player) }
       let(:chris) { instance_double(Player) }
-      option_message = 'Input y if you both wish to play another game but with Chris going first. Type anything else to continue.'
+      option_message = 'Press Y if you both wish to play another game but with Chris going first. Type anything else to continue.'
       before do
         allow(peter).to receive(:name).and_return('Peter')
         allow(chris).to receive(:name).and_return('Chris')

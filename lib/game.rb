@@ -24,7 +24,16 @@ class Game
     @game_drawn
   end
 
+  def new_game_message
+    puts "----------------------------------------------------"
+    puts "----------------------------------------------------"
+    puts "----------------------NEW GAME----------------------"
+    puts "----------------------------------------------------"
+    puts "----------------------------------------------------"
+  end
+  
   def play_game
+    new_game_message
     sleep(2)
     create_players unless player_one
     board = create_board
@@ -66,7 +75,7 @@ class Game
   end
 
   def disc_input
-    puts "#{player_two.name}, you get to choose colours."
+    puts "As Player Two, #{player_two.name}, you get to choose colours."
     sleep(2)
     puts "Type 'R' for red discs, or 'Y' for yellow."
     valid_input(['R', 'Y'])
@@ -146,7 +155,7 @@ class Game
   end
   
   def ask_if_same_players
-    puts "Input y if you both wish to play another game but with #{player_two.name} going first. Type anything else to continue."
+    puts "Press Y if you both wish to play another game but with #{player_two.name} going first. Type anything else to continue."
     choice = gets.strip.upcase
     if choice == 'Y'
       new_game = Game.new(player_two, player_one, player_two)
