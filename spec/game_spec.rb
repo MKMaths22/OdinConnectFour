@@ -195,10 +195,10 @@ describe Game do
 
   describe '#player_places_disc' do
     context 'valid column entered first time' do
-      valid_input = '5'
+      good_input = '5'
       let(:board) { instance_double(Board) }
       it 'sends message to the board' do
-        allow(game).to receive(:valid_input).with(%w[1 2 3 4 5 6 7]).and_return(valid_input)
+        allow(game).to receive(:valid_input).with(%w[1 2 3 4 5 6 7]).and_return(good_input)
         expect(board).to receive(:try_adding_tile).with('5', 'Y')
         game.player_places_disc(board, 'Y')
       end
