@@ -7,7 +7,7 @@ require_relative './player'
 
 # The Game class takes care of initializing other classes and whose turn it is next
 class Game
-  
+
   attr_accessor :player_one, :player_two, :current_player
   attr_writer :game_won, :game_drawn
 
@@ -28,13 +28,13 @@ class Game
   end
 
   def new_game_message
-    puts "----------------------------------------------------"
-    puts "----------------------------------------------------"
-    puts "----------------------NEW GAME----------------------"
-    puts "----------------------------------------------------"
-    puts "----------------------------------------------------"
+    puts '----------------------------------------------------'
+    puts '----------------------------------------------------'
+    puts '----------------------NEW GAME----------------------'
+    puts '----------------------------------------------------'
+    puts '----------------------------------------------------'
   end
-  
+
   def play_game
     new_game_message
     sleep(2)
@@ -58,12 +58,12 @@ class Game
   end
 
   def ask_first_name
-    puts "Player One, please enter your name:"
+    puts 'Player One, please enter your name:'
     gets.strip
   end
 
   def ask_second_name
-    puts "Player Two, please enter your name:"
+    puts 'Player Two, please enter your name:'
     gets.strip
   end
 
@@ -71,7 +71,7 @@ class Game
     if disc_input == 'Y'
       player_one.set_red
       player_two.set_yellow
-    else 
+    else
       player_one.set_yellow
       player_two.set_red
     end
@@ -80,7 +80,7 @@ class Game
   def disc_input
     puts "As Player Two, #{player_two.name}, you get to choose colours."
     sleep(2)
-    puts "Type 'R' for red discs, or 'Y' for yellow."
+    puts 'Type "R" for red discs, or "Y" for yellow.'
     valid_input(['R', 'Y'])
   end
 
@@ -96,9 +96,9 @@ class Game
     this_array = array.clone
     # prevents the array 'array' from being modified below
     end_of_error = " or #{this_array.pop}."
-    error = "Invalid input. Please enter " + this_array.join(', ') + end_of_error
+    error = 'Invalid input. Please enter ' + this_array.join(', ') + end_of_error
   end
-  
+
   def toggle_player
     @current_player = @current_player == @player_one ? player_two : player_one
   end
@@ -106,7 +106,7 @@ class Game
   def show_board(board)
     board.display_board
   end
-  
+
   def turn_loop(board)
     one_turn(board) until game_won? || game_drawn?
   end
@@ -122,7 +122,7 @@ class Game
   def give_colour_name(string)
     string == 'R' ? 'Red' : 'Yellow'
   end
-  
+
   def tell_player_to_choose(player)
     puts "#{player.name}, please choose an available column numbered from 1 to 7 for a #{give_colour_name(player.disc)} disc."
   end
@@ -156,7 +156,7 @@ class Game
   def give_new_game_options
     ask_if_general_new_game unless ask_if_same_players
   end
-  
+
   def ask_if_same_players
     puts "Press Y if you both wish to play another game but with #{player_two.name} going first. Type anything else to continue."
     choice = gets.strip.upcase
@@ -164,18 +164,18 @@ class Game
       new_game = Game.new(player_two, player_one, player_two)
       new_game.play_game
       return true
-      
+
     end
   end
 
   def ask_if_general_new_game
-    puts "Press Y to start a general new game, anything else to quit."
+    puts 'Press Y to start a general new game, anything else to quit.'
     choice = gets.strip.upcase
     if choice == 'Y'
       new_game = Game.new
       new_game.play_game
-    else 
-      puts "Thanks for playing Connect Four! Goodbye."
+    else
+      puts 'Thanks for playing Connect Four! Goodbye.'
     end
   end
 
