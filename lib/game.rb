@@ -66,7 +66,7 @@ class Game
   end
 
   def disc_input
-    puts "Player Two, you get to choose colours."
+    puts "#{player_two.name}, you get to choose colours."
     sleep(2)
     puts "Type 'R' for red discs, or 'Y' for yellow."
     valid_input(['R', 'Y'])
