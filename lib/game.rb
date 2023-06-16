@@ -26,12 +26,13 @@ class Game
 
   def play_game
     sleep(2)
-    create_players
+    create_players unless player_one
     board = create_board
     ask_second_disc
     turn_loop(board)
     show_board(board)
     announce_result
+    give_new_game_options
   end
 
   def create_players
@@ -140,8 +141,12 @@ class Game
     end
   end
 
+  def give_new_game_options
+    ask_if_general_new_game unless ask_if_same_players
+  end
+  
   def ask_if_same_players
-    puts "Do you both wish to play another game but with #{player_two.name} going first?"
+    puts "Input y if you both wish to play another game but with #{player_two.name} going first. Type anything else to continue."
     choice = gets.strip.upcase
     if choice == 'Y'
       new_game = Game.new(player_two, player_one, player_two)

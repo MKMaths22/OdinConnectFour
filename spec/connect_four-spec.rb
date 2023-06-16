@@ -262,13 +262,13 @@ describe Game do
       end
     end
   end
-
+  
   describe '#ask_if_same_players' do
     context 'Peter just played Chris in that order' do
       subject(:game) { described_class.new(peter, chris, peter) }
       let(:peter) { instance_double(Player) }
       let(:chris) { instance_double(Player) }
-      option_message = 'Do you both wish to play another game but with Chris going first?'
+      option_message = 'Input y if you both wish to play another game but with Chris going first. Type anything else to continue.'
       before do
         allow(peter).to receive(:name).and_return('Peter')
         allow(chris).to receive(:name).and_return('Chris')
